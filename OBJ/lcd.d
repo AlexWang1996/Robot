@@ -3,9 +3,9 @@
 ..\obj\lcd.o: ..\SYSTEM\sys\sys.h
 ..\obj\lcd.o: ..\USER\stm32f4xx.h
 ..\obj\lcd.o: ..\CORE\core_cm4.h
-..\obj\lcd.o: H:\MDK5\ARM\ARMCC\bin\..\include\stdint.h
-..\obj\lcd.o: H:\MDK5\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmInstr.h
-..\obj\lcd.o: H:\MDK5\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmFunc.h
+..\obj\lcd.o: E:\mdk5\ARM\ARMCC\bin\..\include\stdint.h
+..\obj\lcd.o: E:\mdk5\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmInstr.h
+..\obj\lcd.o: E:\mdk5\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmFunc.h
 ..\obj\lcd.o: ..\CORE\core_cm4_simd.h
 ..\obj\lcd.o: ..\USER\system_stm32f4xx.h
 ..\obj\lcd.o: ..\USER\stm32f4xx_conf.h
@@ -40,8 +40,8 @@
 ..\obj\lcd.o: ..\HARDWARE\LCD\lcd.h
 ..\obj\lcd.o: ..\SYSTEM\delay\delay.h
 ..\obj\lcd.o: ..\SYSTEM\usart\usart.h
-..\obj\lcd.o: H:\MDK5\ARM\ARMCC\bin\..\include\stdio.h
+..\obj\lcd.o: E:\mdk5\ARM\ARMCC\bin\..\include\stdio.h
 ..\obj\lcd.o: ..\HARDWARE\LED\led.h
-..\obj\lcd.o: H:\MDK5\ARM\ARMCC\bin\..\include\math.h
-..\obj\lcd.o: H:\MDK5\ARM\ARMCC\bin\..\include\stdlib.h
+..\obj\lcd.o: E:\mdk5\ARM\ARMCC\bin\..\include\math.h
+..\obj\lcd.o: E:\mdk5\ARM\ARMCC\bin\..\include\stdlib.h
 ..\obj\lcd.o: ..\HARDWARE\LCD\font.h

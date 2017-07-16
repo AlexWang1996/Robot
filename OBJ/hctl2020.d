@@ -3,9 +3,9 @@
 ..\obj\hctl2020.o: ..\SYSTEM\sys\sys.h
 ..\obj\hctl2020.o: ..\USER\stm32f4xx.h
 ..\obj\hctl2020.o: ..\CORE\core_cm4.h
-..\obj\hctl2020.o: H:\MDK5\ARM\ARMCC\bin\..\include\stdint.h
-..\obj\hctl2020.o: H:\MDK5\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmInstr.h
-..\obj\hctl2020.o: H:\MDK5\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmFunc.h
+..\obj\hctl2020.o: E:\mdk5\ARM\ARMCC\bin\..\include\stdint.h
+..\obj\hctl2020.o: E:\mdk5\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmInstr.h
+..\obj\hctl2020.o: E:\mdk5\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmFunc.h
 ..\obj\hctl2020.o: ..\CORE\core_cm4_simd.h
 ..\obj\hctl2020.o: ..\USER\system_stm32f4xx.h
 ..\obj\hctl2020.o: ..\USER\stm32f4xx_conf.h
@@ -38,4 +38,4 @@
 ..\obj\hctl2020.o: ..\FWLIB\inc\stm32f4xx_fsmc.h
 ..\obj\hctl2020.o: ..\SYSTEM\delay\delay.h
 ..\obj\hctl2020.o: ..\SYSTEM\usart\usart.h
-..\obj\hctl2020.o: H:\MDK5\ARM\ARMCC\bin\..\include\stdio.h
+..\obj\hctl2020.o: E:\mdk5\ARM\ARMCC\bin\..\include\stdio.h

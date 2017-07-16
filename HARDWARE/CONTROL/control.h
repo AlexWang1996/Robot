@@ -42,6 +42,10 @@ struct robot{
 
 extern struct robot robot_zqd;
 extern u32 uart_data[3];
+extern u8 sanfen_state;
+extern u8 zhongquan_state;
+extern u8 dixian_state;
+extern u8 lankuang_state;
 
 void control_init(void);
 void control3_W(float W);
@@ -57,10 +61,11 @@ void charge_init(void);		//弹射充电开关初始化
 //vy：球场坐标的y轴速度
 //w:机器人原地旋转的角速度
 void set_motor_vx_vy_w(float vx,float vy,float w);
+void set_motor_vx_vy_w_R(float vx, float vy, float w);
 void jixiebi_down(void);
 void jixiebi_up(void);
 int down_shot_up(void);		//机械臂下降，投球，机械臂上升
-void get_hongwai(void);			//获取红外状态
+u8 get_hongwai(void);			//获取红外状态
 //直线行走
 //X_I:目标坐标的X
 //Y_I:目标坐标的Y

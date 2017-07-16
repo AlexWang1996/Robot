@@ -3,9 +3,9 @@
 ..\obj\timer.o: ..\SYSTEM\sys\sys.h
 ..\obj\timer.o: ..\USER\stm32f4xx.h
 ..\obj\timer.o: ..\CORE\core_cm4.h
-..\obj\timer.o: H:\MDK5\ARM\ARMCC\bin\..\include\stdint.h
-..\obj\timer.o: H:\MDK5\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmInstr.h
-..\obj\timer.o: H:\MDK5\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmFunc.h
+..\obj\timer.o: E:\mdk5\ARM\ARMCC\bin\..\include\stdint.h
+..\obj\timer.o: E:\mdk5\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmInstr.h
+..\obj\timer.o: E:\mdk5\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmFunc.h
 ..\obj\timer.o: ..\CORE\core_cm4_simd.h
 ..\obj\timer.o: ..\USER\system_stm32f4xx.h
 ..\obj\timer.o: ..\USER\stm32f4xx_conf.h
@@ -42,7 +42,8 @@
 ..\obj\timer.o: ..\HARDWARE\LCD\lcd.h
 ..\obj\timer.o: ..\SYSTEM\delay\delay.h
 ..\obj\timer.o: ..\SYSTEM\usart\usart.h
-..\obj\timer.o: H:\MDK5\ARM\ARMCC\bin\..\include\stdio.h
+..\obj\timer.o: E:\mdk5\ARM\ARMCC\bin\..\include\stdio.h
 ..\obj\timer.o: ..\HARDWARE\LED\led.h
-..\obj\timer.o: H:\MDK5\ARM\ARMCC\bin\..\include\math.h
-..\obj\timer.o: H:\MDK5\ARM\ARMCC\bin\..\include\stdlib.h
+..\obj\timer.o: E:\mdk5\ARM\ARMCC\bin\..\include\math.h
+..\obj\timer.o: E:\mdk5\ARM\ARMCC\bin\..\include\stdlib.h
+..\obj\timer.o: ..\HARDWARE\BEEP\beep.h

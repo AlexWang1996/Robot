@@ -1,11 +1,38 @@
 #include "timer.h"
 #include "usart.h"
-
+#include "beep.h"
+u8 time_out_flag=0;
 u8 count = 0;
+u8 counter=0;
 float ll1[4]={0,0,0,0};
 float ll2[4]={0,0,0,0};
 float ll3[4]={0,0,0,0};
 
+/****/
+void TIM7_Int_Init(u32 arr,u32 psc)
+{
+	TIM_TimeBaseInitTypeDef TIM_TimeBaseInitStructure;
+	NVIC_InitTypeDef NVIC_InitStructure;
+	
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM7,ENABLE);  ///Ê¹ÄÜTIM7Ê±ÖÓ
+	
+	TIM_TimeBaseInitStructure.TIM_Period = arr; 	//×Ô¶¯ÖØ×°ÔØÖµ
+	TIM_TimeBaseInitStructure.TIM_Prescaler=psc;  //¶¨Ê±Æ÷·ÖÆµ
+	TIM_TimeBaseInitStructure.TIM_CounterMode=TIM_CounterMode_Up; //ÏòÉÏ¼ÆÊýÄ£Ê½
+	TIM_TimeBaseInitStructure.TIM_ClockDivision=TIM_CKD_DIV1; 
+	
+	TIM_TimeBaseInit(TIM7,&TIM_TimeBaseInitStructure);//³õÊ¼»¯TIM7
+	
+	TIM_ITConfig(TIM7,TIM_IT_Update,ENABLE); //ÔÊÐí¶¨Ê±Æ÷7¸üÐÂÖÐ¶Ï
+
+	
+	NVIC_InitStructure.NVIC_IRQChannel=TIM7_IRQn; //¶¨Ê±Æ÷7ÖÐ¶Ï
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=0x00; //ÇÀÕ¼ÓÅÏÈ¼¶0
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority=0x00; //×ÓÓÅÏÈ¼¶0
+	NVIC_InitStructure.NVIC_IRQChannelCmd=ENABLE;
+	NVIC_Init(&NVIC_InitStructure);
+	TIM_Cmd(TIM7,ENABLE); //Ê¹ÄÜ¶¨Ê±Æ÷7
+}
 
 void TIM2_Int_Init(u32 arr,u32 psc)
 {
@@ -30,8 +57,33 @@ void TIM2_Int_Init(u32 arr,u32 psc)
 	NVIC_InitStructure.NVIC_IRQChannelCmd=ENABLE;
 	NVIC_Init(&NVIC_InitStructure);
 }
+/*
+Ñ¹ÉÚÍ¶Àº  ´ýÑéÖ¤
+*/
+void TIM7_IRQHandler(void)
+{
+	
+			
+	if(TIM_GetITStatus(TIM7,TIM_IT_Update)==SET)
+	{
+		
+		if(counter<11)
+		{
+			counter++;
+		}
+		else
+		{
+			time_out_flag=1;
+			//charge(0);
+		}
+		
 
+	}
+		 TIM_ClearITPendingBit(TIM7,TIM_IT_Update);  //Çå³ýÖÐ¶Ï±êÖ¾Î
 
+	
+	
+}
 
 //¶¨Ê±Æ÷2ÖÐ¶Ï·þÎñº¯Êý
 void TIM2_IRQHandler(void)

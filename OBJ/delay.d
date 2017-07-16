@@ -3,9 +3,9 @@
 ..\obj\delay.o: ..\SYSTEM\sys\sys.h
 ..\obj\delay.o: ..\USER\stm32f4xx.h
 ..\obj\delay.o: ..\CORE\core_cm4.h
-..\obj\delay.o: H:\MDK5\ARM\ARMCC\bin\..\include\stdint.h
-..\obj\delay.o: H:\MDK5\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmInstr.h
-..\obj\delay.o: H:\MDK5\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmFunc.h
+..\obj\delay.o: E:\mdk5\ARM\ARMCC\bin\..\include\stdint.h
+..\obj\delay.o: E:\mdk5\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmInstr.h
+..\obj\delay.o: E:\mdk5\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmFunc.h
 ..\obj\delay.o: ..\CORE\core_cm4_simd.h
 ..\obj\delay.o: ..\USER\system_stm32f4xx.h
 ..\obj\delay.o: ..\USER\stm32f4xx_conf.h

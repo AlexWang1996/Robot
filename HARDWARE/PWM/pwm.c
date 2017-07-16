@@ -31,7 +31,7 @@ void initall_PWM(void)
 	TIM13_ch1_PWM_Init(2000-1,84-1);//1M/2000=500hz pa6
 	//TIM12_ch1_PWM_Init(2000-1,84-1);////pb14
 	//TIM5_ch2_PWM_Init(560-1,3-1);//84M/3=28Mhz   28/280=100khz  	pa1		HCTL2020时钟信号
-	TIM5_ch2_PWM_Init(14-1,3-1);			//2MHz    HCTL2020   修改
+	TIM5_ch2_PWM_Init(42-1,1-1);			//2MHz    HCTL2020   修改
 	//TIM4_ch2_PWM_Init(2000-1,84-1);//pb7
 	TIM3_ch1_PWM_Init(2000-1,84-1);	//pc6 dianji 1
 	TIM3_ch2_PWM_Init(2000-1,84-1);	//pc7 dianji 2

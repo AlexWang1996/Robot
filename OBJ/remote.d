@@ -3,9 +3,9 @@
 ..\obj\remote.o: ..\SYSTEM\sys\sys.h
 ..\obj\remote.o: ..\USER\stm32f4xx.h
 ..\obj\remote.o: ..\CORE\core_cm4.h
-..\obj\remote.o: H:\MDK5\ARM\ARMCC\bin\..\include\stdint.h
-..\obj\remote.o: H:\MDK5\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmInstr.h
-..\obj\remote.o: H:\MDK5\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmFunc.h
+..\obj\remote.o: E:\mdk5\ARM\ARMCC\bin\..\include\stdint.h
+..\obj\remote.o: E:\mdk5\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmInstr.h
+..\obj\remote.o: E:\mdk5\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmFunc.h
 ..\obj\remote.o: ..\CORE\core_cm4_simd.h
 ..\obj\remote.o: ..\USER\system_stm32f4xx.h
 ..\obj\remote.o: ..\USER\stm32f4xx_conf.h
@@ -38,4 +38,4 @@
 ..\obj\remote.o: ..\FWLIB\inc\stm32f4xx_fsmc.h
 ..\obj\remote.o: ..\SYSTEM\delay\delay.h
 ..\obj\remote.o: ..\SYSTEM\usart\usart.h
-..\obj\remote.o: H:\MDK5\ARM\ARMCC\bin\..\include\stdio.h
+..\obj\remote.o: E:\mdk5\ARM\ARMCC\bin\..\include\stdio.h

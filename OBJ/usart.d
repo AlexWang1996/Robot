@@ -2,9 +2,9 @@
 ..\obj\usart.o: ..\SYSTEM\sys\sys.h
 ..\obj\usart.o: ..\USER\stm32f4xx.h
 ..\obj\usart.o: ..\CORE\core_cm4.h
-..\obj\usart.o: H:\MDK5\ARM\ARMCC\bin\..\include\stdint.h
-..\obj\usart.o: H:\MDK5\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmInstr.h
-..\obj\usart.o: H:\MDK5\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmFunc.h
+..\obj\usart.o: E:\mdk5\ARM\ARMCC\bin\..\include\stdint.h
+..\obj\usart.o: E:\mdk5\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmInstr.h
+..\obj\usart.o: E:\mdk5\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmFunc.h
 ..\obj\usart.o: ..\CORE\core_cm4_simd.h
 ..\obj\usart.o: ..\USER\system_stm32f4xx.h
 ..\obj\usart.o: ..\USER\stm32f4xx_conf.h
@@ -36,5 +36,5 @@
 ..\obj\usart.o: ..\FWLIB\inc\stm32f4xx_dcmi.h
 ..\obj\usart.o: ..\FWLIB\inc\stm32f4xx_fsmc.h
 ..\obj\usart.o: ..\SYSTEM\usart\usart.h
-..\obj\usart.o: H:\MDK5\ARM\ARMCC\bin\..\include\stdio.h
+..\obj\usart.o: E:\mdk5\ARM\ARMCC\bin\..\include\stdio.h
 ..\obj\usart.o: ..\HARDWARE\LED\led.h

@@ -212,7 +212,9 @@ void uart_init(u32 bound){
 
 
 u8 receive = 0;
-void USART1_IRQHandler(void)                	//串口1中断服务程序，视觉数据
+u8 End[1]="0";
+u8 check_sum = 0x00;
+void USART1_IRQHandler(void)                	//串口1中断服务程序，视觉数据  加了校验还未验证
 {
 	u8 Res;
 #ifdef OS_TICKS_PER_SEC	 	//如果时钟节拍数定义了,说明要使用ucosII了.
@@ -221,19 +223,36 @@ void USART1_IRQHandler(void)                	//串口1中断服务程序，视觉数据
 	if(USART_GetITStatus(USART1, USART_IT_RXNE) != RESET)  //接收中断(接收到的数据必须是0x0d 0x0a结尾)
 	{
 		Res =USART_ReceiveData(USART1);//(USART1->DR);	//读取接收到的数据
-		
 		if((USART_RX_STA&0x8000)==0)//接收未完成
 		{
+			
 			if(Res!='z')
-			{	
+			{ 
+				if(End[0]!='z')
+				{
 				USART_RX_BUF[USART_RX_STA&0X3FFF]=Res ;
+				check_sum+=Res;
 				USART_RX_STA++;
 				if(USART_RX_STA>(USART_REC_LEN-1))
-					USART_RX_STA=0;//接收数据错误,重新开始接收	   
+					USART_RX_STA=0;//接收数据错误,重新开始接收
+				}
+				else 
+				{
+					if(check_sum==Res)
+					{
+						USART_RX_STA|=0x8000;
+						receive=1;
+					}
+					else
+						USART3_RX_STA=0;
+				}
+					
 			}
-			else {
-				USART_RX_STA|=0x8000;
-				receive=1;
+			else if(Res=='z') 
+			{ 
+				End[0]=Res;
+				if(check_sum=='z')
+					check_sum++;
 			}
 		} 
 	}   		 

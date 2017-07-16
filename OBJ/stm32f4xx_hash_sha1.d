@@ -2,9 +2,9 @@
 ..\obj\stm32f4xx_hash_sha1.o: ..\FWLIB\inc\stm32f4xx_hash.h
 ..\obj\stm32f4xx_hash_sha1.o: ..\USER\stm32f4xx.h
 ..\obj\stm32f4xx_hash_sha1.o: ..\CORE\core_cm4.h
-..\obj\stm32f4xx_hash_sha1.o: H:\MDK5\ARM\ARMCC\bin\..\include\stdint.h
-..\obj\stm32f4xx_hash_sha1.o: H:\MDK5\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmInstr.h
-..\obj\stm32f4xx_hash_sha1.o: H:\MDK5\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmFunc.h
+..\obj\stm32f4xx_hash_sha1.o: E:\mdk5\ARM\ARMCC\bin\..\include\stdint.h
+..\obj\stm32f4xx_hash_sha1.o: E:\mdk5\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmInstr.h
+..\obj\stm32f4xx_hash_sha1.o: E:\mdk5\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmFunc.h
 ..\obj\stm32f4xx_hash_sha1.o: ..\CORE\core_cm4_simd.h
 ..\obj\stm32f4xx_hash_sha1.o: ..\USER\system_stm32f4xx.h
 ..\obj\stm32f4xx_hash_sha1.o: ..\USER\stm32f4xx_conf.h

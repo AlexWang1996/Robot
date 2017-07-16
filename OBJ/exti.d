@@ -3,9 +3,9 @@
 ..\obj\exti.o: ..\SYSTEM\sys\sys.h
 ..\obj\exti.o: ..\USER\stm32f4xx.h
 ..\obj\exti.o: ..\CORE\core_cm4.h
-..\obj\exti.o: H:\MDK5\ARM\ARMCC\bin\..\include\stdint.h
-..\obj\exti.o: H:\MDK5\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmInstr.h
-..\obj\exti.o: H:\MDK5\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmFunc.h
+..\obj\exti.o: E:\mdk5\ARM\ARMCC\bin\..\include\stdint.h
+..\obj\exti.o: E:\mdk5\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmInstr.h
+..\obj\exti.o: E:\mdk5\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmFunc.h
 ..\obj\exti.o: ..\CORE\core_cm4_simd.h
 ..\obj\exti.o: ..\USER\system_stm32f4xx.h
 ..\obj\exti.o: ..\USER\stm32f4xx_conf.h
@@ -39,10 +39,10 @@
 ..\obj\exti.o: ..\HARDWARE\LED\led.h
 ..\obj\exti.o: ..\SYSTEM\delay\delay.h
 ..\obj\exti.o: ..\SYSTEM\usart\usart.h
-..\obj\exti.o: H:\MDK5\ARM\ARMCC\bin\..\include\stdio.h
+..\obj\exti.o: E:\mdk5\ARM\ARMCC\bin\..\include\stdio.h
 ..\obj\exti.o: ..\HARDWARE\BEEP\beep.h
 ..\obj\exti.o: ..\HARDWARE\CONTROL\control.h
 ..\obj\exti.o: ..\HARDWARE\LCD\lcd.h
 ..\obj\exti.o: ..\HARDWARE\CONTROL\control.h
-..\obj\exti.o: H:\MDK5\ARM\ARMCC\bin\..\include\stdlib.h
-..\obj\exti.o: H:\MDK5\ARM\ARMCC\bin\..\include\math.h
+..\obj\exti.o: E:\mdk5\ARM\ARMCC\bin\..\include\stdlib.h
+..\obj\exti.o: E:\mdk5\ARM\ARMCC\bin\..\include\math.h

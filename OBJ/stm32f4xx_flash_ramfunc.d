@@ -2,9 +2,9 @@
 ..\obj\stm32f4xx_flash_ramfunc.o: ..\FWLIB\inc\stm32f4xx_flash_ramfunc.h
 ..\obj\stm32f4xx_flash_ramfunc.o: ..\USER\stm32f4xx.h
 ..\obj\stm32f4xx_flash_ramfunc.o: ..\CORE\core_cm4.h
-..\obj\stm32f4xx_flash_ramfunc.o: H:\MDK5\ARM\ARMCC\bin\..\include\stdint.h
-..\obj\stm32f4xx_flash_ramfunc.o: H:\MDK5\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmInstr.h
-..\obj\stm32f4xx_flash_ramfunc.o: H:\MDK5\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmFunc.h
+..\obj\stm32f4xx_flash_ramfunc.o: E:\mdk5\ARM\ARMCC\bin\..\include\stdint.h
+..\obj\stm32f4xx_flash_ramfunc.o: E:\mdk5\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmInstr.h
+..\obj\stm32f4xx_flash_ramfunc.o: E:\mdk5\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmFunc.h
 ..\obj\stm32f4xx_flash_ramfunc.o: ..\CORE\core_cm4_simd.h
 ..\obj\stm32f4xx_flash_ramfunc.o: ..\USER\system_stm32f4xx.h
 ..\obj\stm32f4xx_flash_ramfunc.o: ..\USER\stm32f4xx_conf.h
