@@ -80,7 +80,7 @@ void EXTIX_Disable(u8 extix)
 	NVIC_InitTypeDef NVIC_InitStructure;
 	
 
-	
+	/*
 	if(extix == 0)
 	{
 		NVIC_InitStructure.NVIC_IRQChannel = EXTI0_IRQn;			//使能所在的外部中断通道
@@ -96,7 +96,8 @@ void EXTIX_Disable(u8 extix)
 		NVIC_InitStructure.NVIC_IRQChannelCmd = DISABLE;								//使能外部中断通道
 
 	}
-	else if(extix==9)
+	*/
+	if(extix==9)
 	{
 		NVIC_InitStructure.NVIC_IRQChannel = EXTI9_5_IRQn;			//使能所在的外部中断通道
 		NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x00;	//抢占优先级2， 
@@ -111,7 +112,7 @@ void EXTIX_Enable(u8 extix)
 {
  	NVIC_InitTypeDef NVIC_InitStructure;
 	
-
+/*
 	
 	if(extix == 0)
 	{
@@ -127,7 +128,8 @@ void EXTIX_Enable(u8 extix)
 		NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x00;					//子优先级2
 		NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;								//使能外部中断通道
 	}
-		else if(extix==9)
+	*/
+	if(extix==9)
 	{
 		NVIC_InitStructure.NVIC_IRQChannel = EXTI9_5_IRQn;			//使能所在的外部中断通道
 		NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x00;	//抢占优先级2， 
@@ -165,7 +167,11 @@ void EXTIX_Enable(u8 extix)
 //	
 //}
 
-//void EXTI9_5_IRQHandler(void)
-//{
-//	delay_ms(10);
-//}
+void EXTI9_5_IRQHandler(void)
+{
+	
+	TIM_SetCompare2(TIM9,MOTOR_STATIC_2); //PE6
+	TIM_SetCompare1(TIM9,MOTOR_STATIC_1);	//PE5
+	EXTIX_Disable(9);
+	
+}

@@ -21,7 +21,7 @@
 #define MOTOR_STATIC_1 3990		//TIM9 CH1 PE5
 #define MOTOR_STATIC_2 3986  	//TIM9 CH2 PE6
 
-#define MID_LASER 272		//激光定位中心
+#define MID_LASER 273		//激光定位中心
 #define MID_VIEW 320		//视觉定位中心
 #define DIS_LASER 2500			//篮筐雷达定位距离
 #define DIS_VIEW 280	//篮筐视觉定位距离
@@ -65,7 +65,8 @@ void set_motor_vx_vy_w_R(float vx, float vy, float w);
 void jixiebi_down(void);
 void jixiebi_up(void);
 int down_shot_up(void);		//机械臂下降，投球，机械臂上升
-u8 get_hongwai(void);			//获取红外状态
+void get_hongwai(void);			//获取红外状态
+void get_hongwai_dixian(float dis);
 //直线行走
 //X_I:目标坐标的X
 //Y_I:目标坐标的Y

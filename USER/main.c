@@ -43,14 +43,7 @@ int main(void)
 	TIM_SetCompare2(TIM5,7);
 	control_init();				//机器人初始化
 	TIM2_Int_Init(100-1,8400-1);//定时读取解码器，时间0.01f
-	//TIM7_Int_Init(20000,8400*5-1); // 压哨投球 待完善 120s定时  
-	
-	
-		
-		
-		
-	
-	
+	//TIM7_Int_Init(20000,8400*5-1); // 压哨投球 待完善 120s定时 
 	
 
 	while(1)
@@ -183,6 +176,7 @@ int main(void)
 									LED0 = 1;
 									break;
 								case KEY_3:
+									charge(0);
 									GPIO_SetBits(GPIOG,GPIO_Pin_7);
 									LED1 = 0;
 									delay_ms(10000);
@@ -212,11 +206,13 @@ int main(void)
 						break;
 					case 5:
 						//视觉测试
-						find_ball_sanfen(4);	
+					find_ball(1);
+						//find_ball_sanfen(4);	
 						break;
 					case 6:
 						//激光测试
-						find_ball_zhongquan();
+					find_ball_laser();
+					//	find_ball_zhongquan();
 						break;
 					case 7:
 						//直线行走
@@ -240,19 +236,19 @@ int main(void)
 				//|-              |            - |
 				// --------------- --------------
 				//             口     
-	//			charge(1);
+				charge(1); 
 				robot_straight_stage(0,3,70);										//左场
 				//robot_straight_stage(0,5.3,290);									//右场
 				delay_ms(30000);
-	//			if(down_shot_up())
-	//				break;
-	//			delay_ms(30000);
-	//			charge(1);
+				if(down_shot_up())
+					break;
+				delay_ms(30000);
+				charge(1);
 				robot_turnOrigin_stage(0);
 				delay_ms(30000);
-	//			find_ball_zhongquan();			//雷达找球
+				find_ball_zhongquan();			//雷达找球
 				//find_ball(qiu);				//视觉找球
-	//			delay_ms(30000);
+				delay_ms(30000);
 				if(robot_zqd.X>0)
 					robot_turnOrigin_stage(90);										//左场
 					//robot_turnOrigin_stage(270);									//右场
@@ -260,9 +256,9 @@ int main(void)
 					robot_turnOrigin_stage(70);										//左场
 					//robot_turnOrigin_stage(290);									//右场
 				delay_ms(30000);
-	//			if(down_shot_up())
-	//				break;
-	//			delay_ms(30000);
+				if(down_shot_up())
+					break;
+				delay_ms(30000);
 				robot_straight_stage(0.08,-0.02,0);		 //原来 0.3 0 0								//左场
 				//robot_straight_stage(-0.3,0,0);									//右场
 				break;
@@ -381,7 +377,7 @@ int main(void)
 				//robot_straight_stage(-8,7,90);										//左场
 				//robot_straight_stage(8,7,270);										//右场
 				delay_ms(30000);
-				find_lankuang();
+				find_lankuang(); 
 				delay_ms(30000);
 				if(down_shot_up())
 					break;

@@ -3,6 +3,7 @@
 #include "remote.h"
 #include "beep.h"
 #include "timer.h"
+#include "usart.h"
 
 struct robot robot_zqd;
 u32 uart_data[3]={0,2000,1000};			//串口接收数据存储，x位置，深度，半径
@@ -141,7 +142,7 @@ void hongwai_init(void)
 
 
 //获取红外状态
-u8 get_hongwai(void)
+void get_hongwai(void)
 {
 	// return GPIO_ReadInputDataBit(GPIOF,GPIO_Pin_9);
 	while(1)
@@ -154,7 +155,7 @@ u8 get_hongwai(void)
 }
 
 //获取红外状态
-u8 get_hongwai_dixian(float dis)
+void get_hongwai_dixian(float dis)
 {
 	while(1)
 	{
@@ -537,7 +538,7 @@ void jixiebi_up(void)
 	//原来板子：1960
 	//V1.0:550
 	u16 i,t;
-	u16 W=3000;
+	u16 W=2700;
 	u16 nms=2000;
 	
 	if(xianwei_up()==1)
@@ -1057,11 +1058,11 @@ void robot_straight_ObsAvoidance(float X_I,float Y_I,float Theta_I)
 		{
 			if(uart3_data[1] < fabs(D_X)*1000 || uart3_data[1] < fabs(D_Y)*1000)
 			{
-				deg = uart3_data[0] - (float)MID_LASER;
+			//	deg = uart3_data[0] - (float)MID_LASER;
 				deg = (uart3_data[0] - (float)MID_LASER) * PI /180;
 				if(deg < 0 )
 					deg = -deg;
-				if(uart3_data[1] < 2500 && uart3_data[1] * sin(deg) <4000)
+				if(uart3_data[1] < 2500 && uart3_data[1] * sin(deg) <400) //原来4000
 				{
 					control1_W(robot_zqd.pwm[0]);
 					control2_W(robot_zqd.pwm[0]);
@@ -1697,7 +1698,7 @@ void find_ball(u8 ball)
 	receive=0;
 	do{
 		while(receive != 1);
-		
+		USART_SendData(USART1, receive);
 		if(!uart_getData())
 		{	
 			if(time == 0)
@@ -2151,11 +2152,10 @@ void find_ball_sanfen(u8 ball)
 void find_ball_laser(void)
 {
 	float w=300;
-	float theta = robot_zqd.theta,D_theta = 0;
-	
-	get_lankuang();
-	get_lankuang();
-	get_lankuang();
+	float theta = robot_zqd.theta,D_theta = 0;	
+//	get_lankuang();
+//	get_lankuang();
+//	get_lankuang();
 	
 	control1_W(0);
 	control2_W(0);
@@ -2170,10 +2170,16 @@ void find_ball_laser(void)
 			control1_W(robot_zqd.pwm[0]);
 			control2_W(robot_zqd.pwm[1]);
 			control3_W(robot_zqd.pwm[2]);
-			continue;
+		//	continue;
 		}
 		LED0 = !LED0;
+
+		//USART_SendData(USART3,uart_getLaser());
+		//USART_SendData(USART3,robot_zqd.pwm[0]);
+		//USART_SendData(USART3,robot_zqd.pwm[1]);
+		//USART_SendData(USART3,robot_zqd.pwm[2]);
 		
+
 		if(uart3_data[1] < 10)
 			continue;
 		if(uart3_data[1] > 3000)
@@ -2262,14 +2268,14 @@ void find_ball_laser(void)
 				break;
 		}
 	}while(1);
-	get_hongwai();
+	get_hongwai();	
 	robot_zqd.pwm[0] = 0;
 	robot_zqd.pwm[1] = 0;
 	robot_zqd.pwm[2] = 0;
 	control1_W(0);
 	control2_W(0);
 	control3_W(0);
-	//jixiebi_up(1950,1100);
+	jixiebi_up();
 	LCD_Show_pwm();
 	
 }
@@ -2416,7 +2422,7 @@ void find_ball_zhongquan(void)
 				break;
 		}
 	}while(1);
-	//get_hongwai();
+	get_hongwai();
 	robot_zqd.pwm[0] = 0;
 	robot_zqd.pwm[1] = 0;
 	robot_zqd.pwm[2] = 0;
@@ -2581,7 +2587,7 @@ u8 find_ball_dixian(void)
 				break;
 		}
 	}while(1);
-	//get_hongwai_dixian(0.9f);
+	get_hongwai_dixian(0.9f);
 	robot_zqd.pwm[0] = 0;
 	robot_zqd.pwm[1] = 0;
 	robot_zqd.pwm[2] = 0;

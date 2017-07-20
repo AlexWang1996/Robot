@@ -190,50 +190,18 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>789</LineNumber>
+          <LineNumber>248</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134264164</Address>
+          <Address>134228256</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>G:\脌潞脟貌禄煤脝梅脠脣脳脢脕脧\Robot\HARDWARE\CONTROL\control.c</Filename>
+          <Filename>E:\BaiduYunDownload\脭脣露炉脠铆录镁脳茅-STM32脳脢脕脧\robot\SYSTEM\usart\usart.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression></Expression>
-        </Bp>
-        <Bp>
-          <Number>1</Number>
-          <Type>0</Type>
-          <LineNumber>787</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134264004</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>G:\脌潞脟貌禄煤脝梅脠脣脳脢脕脧\Robot\HARDWARE\CONTROL\control.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression></Expression>
-        </Bp>
-        <Bp>
-          <Number>2</Number>
-          <Type>0</Type>
-          <LineNumber>806</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134264522</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>G:\脌潞脟貌禄煤脝梅脠脣脳脢脕脧\Robot\HARDWARE\CONTROL\control.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\Template\../HARDWARE/CONTROL/control.c\806</Expression>
+          <Expression>\\Template\../SYSTEM/usart/usart.c\248</Expression>
         </Bp>
       </Breakpoint>
       <MemoryWindow1>
