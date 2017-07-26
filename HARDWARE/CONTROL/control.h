@@ -19,7 +19,7 @@
 #define MOTOR_R 0.0508f		//轮子的半径
 
 #define MOTOR_STATIC_1 3990		//TIM9 CH1 PE5
-#define MOTOR_STATIC_2 3986  	//TIM9 CH2 PE6
+#define MOTOR_STATIC_2 3990  	//TIM9 CH2 PE6
 
 #define MID_LASER 273		//激光定位中心
 #define MID_VIEW 320		//视觉定位中心
@@ -42,10 +42,6 @@ struct robot{
 
 extern struct robot robot_zqd;
 extern u32 uart_data[3];
-extern u8 sanfen_state;
-extern u8 zhongquan_state;
-extern u8 dixian_state;
-extern u8 lankuang_state;
 
 void control_init(void);
 void control3_W(float W);
@@ -76,6 +72,7 @@ void robot_straight_I(float X_I,float Y_I,float Theta,float V,float W,float dist
 void robot_straight_Y(float Y_I,float V,float distance,u32 a_start,u32 a_stop);
 void robot_straight_stage(float X_I,float Y_I,float Theta_I);
 void robot_straight_ObsAvoidance(float X_I,float Y_I,float Theta_I);
+void robot_certain_point(float X_I,float Y_I,float Theta_I,float pointX, float pointY,float pointTheta);
 //自旋运动
 //W自旋角速度 Theta 目标姿态角 dis姿态角偏差
 void robot_turnOrigin(float W,float Theta,float dis);
@@ -104,5 +101,7 @@ u8 xianwei_up(void);
 
 u8 uart_getLaser(void);
 u8 uart_getData(void);
+void zhongquanpoint(u8 zhongquan);
+void sanfenpoint(u8 sanfen,u8 zhongquan);
 
 #endif

@@ -245,7 +245,7 @@ void USART1_IRQHandler(void)                	//串口1中断服务程序，视觉数据
 					{	
 						USART_RX_STA|=0x8000;
 						receive=1;
-						//USART_SendData(USART1, receive);
+				//		USART_SendData(USART1, check_sum1);
 					}
 					else
 						USART_RX_STA=0;
@@ -351,7 +351,7 @@ void USART3_IRQHandler(void)                	//串口3中断服务程序,雷达数据
 				if(end!='z')
 				{
 				USART3_RX_BUF[USART3_RX_STA&0X3FFF]=Res ;
-				USART_SendData(USART3, USART3_RX_BUF[USART3_RX_STA&0X3FFF]);
+				//USART_SendData(USART3, USART3_RX_BUF[USART3_RX_STA&0X3FFF]);
 				check_sum3=Res+check_sum3;
 				
 				USART3_RX_STA++;
@@ -362,8 +362,7 @@ void USART3_IRQHandler(void)                	//串口3中断服务程序,雷达数据
 				{
 					if(check_sum3==Res)
 					{
-					USART_SendData(USART3, check_sum3);
-						
+			//		USART_SendData(USART3, check_sum3);
 						USART3_RX_STA|=0x8000;
 						receive3=1;
 					}

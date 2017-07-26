@@ -1,5 +1,5 @@
 Dependencies for Project 'Template', Target 'Template': (DO NOT MODIFY !)
-F (.\main.c)(0x59702047)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\USER -I..\FWLIB\inc -I..\HARDWARE -I..\HARDWARE\HCTL2020 -I..\HARDWARE\TIMER -I..\HARDWARE\LCD -I..\HARDWARE\CONTROL -I..\HARDWARE\PWM -I..\HARDWARE\LED -I..\HARDWARE\KEY -I..\HARDWARE\REMOTE -I..\HARDWARE\MPU6050 -I..\HARDWARE\IIC -I..\HARDWARE\BEEP -I..\HARDWARE\EXTI-I E:\mdk5\ARM\RV31\INC-I E:\mdk5\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include-I E:\mdk5\ARM\PACK\Keil\STM32F4xx_DFP\1.0.8\Device\Include-DSTM32F40_41xxx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -DZQD_DEBUG -DSTM32F40_41xxx-o ..\obj\main.o --omf_browse ..\obj\main.crf --depend ..\obj\main.d)
+F (.\main.c)(0x597877D6)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\USER -I..\FWLIB\inc -I..\HARDWARE -I..\HARDWARE\HCTL2020 -I..\HARDWARE\TIMER -I..\HARDWARE\LCD -I..\HARDWARE\CONTROL -I..\HARDWARE\PWM -I..\HARDWARE\LED -I..\HARDWARE\KEY -I..\HARDWARE\REMOTE -I..\HARDWARE\MPU6050 -I..\HARDWARE\IIC -I..\HARDWARE\BEEP -I..\HARDWARE\EXTI-I E:\mdk5\ARM\RV31\INC-I E:\mdk5\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include-I E:\mdk5\ARM\PACK\Keil\STM32F4xx_DFP\1.0.8\Device\Include-DSTM32F40_41xxx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -DZQD_DEBUG -DSTM32F40_41xxx-o ..\obj\main.o --omf_browse ..\obj\main.crf --depend ..\obj\main.d)
 I (stm32f4xx.h)(0x59606DD0)
 I (..\CORE\core_cm4.h)(0x59606DCF)
 I (E:\mdk5\ARM\ARMCC\include\stdint.h)(0x53463A44)
@@ -42,7 +42,7 @@ I (..\SYSTEM\delay\delay.h)(0x59606DD0)
 I (..\HARDWARE\HCTL2020\HCTL2020.h)(0x59606DCF)
 I (..\HARDWARE\TIMER\timer.h)(0x5969C1A7)
 I (..\HARDWARE\LCD\lcd.h)(0x59606DCF)
-I (..\HARDWARE\CONTROL\control.h)(0x59703719)
+I (..\HARDWARE\CONTROL\control.h)(0x59773779)
 I (..\HARDWARE\LED\led.h)(0x59606DCF)
 I (E:\mdk5\ARM\ARMCC\include\math.h)(0x53463A44)
 I (E:\mdk5\ARM\ARMCC\include\stdlib.h)(0x53463A44)
@@ -1425,7 +1425,7 @@ I (..\FWLIB\inc\stm32f4xx_can.h)(0x59606DCF)
 I (..\FWLIB\inc\stm32f4xx_dac.h)(0x59606DCF)
 I (..\FWLIB\inc\stm32f4xx_dcmi.h)(0x59606DCF)
 I (..\FWLIB\inc\stm32f4xx_fsmc.h)(0x59606DCF)
-F (..\SYSTEM\usart\usart.c)(0x597017F5)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\USER -I..\FWLIB\inc -I..\HARDWARE -I..\HARDWARE\HCTL2020 -I..\HARDWARE\TIMER -I..\HARDWARE\LCD -I..\HARDWARE\CONTROL -I..\HARDWARE\PWM -I..\HARDWARE\LED -I..\HARDWARE\KEY -I..\HARDWARE\REMOTE -I..\HARDWARE\MPU6050 -I..\HARDWARE\IIC -I..\HARDWARE\BEEP -I..\HARDWARE\EXTI-I E:\mdk5\ARM\RV31\INC-I E:\mdk5\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include-I E:\mdk5\ARM\PACK\Keil\STM32F4xx_DFP\1.0.8\Device\Include-DSTM32F40_41xxx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -DZQD_DEBUG -DSTM32F40_41xxx-o ..\obj\usart.o --omf_browse ..\obj\usart.crf --depend ..\obj\usart.d)
+F (..\SYSTEM\usart\usart.c)(0x59787484)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\USER -I..\FWLIB\inc -I..\HARDWARE -I..\HARDWARE\HCTL2020 -I..\HARDWARE\TIMER -I..\HARDWARE\LCD -I..\HARDWARE\CONTROL -I..\HARDWARE\PWM -I..\HARDWARE\LED -I..\HARDWARE\KEY -I..\HARDWARE\REMOTE -I..\HARDWARE\MPU6050 -I..\HARDWARE\IIC -I..\HARDWARE\BEEP -I..\HARDWARE\EXTI-I E:\mdk5\ARM\RV31\INC-I E:\mdk5\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include-I E:\mdk5\ARM\PACK\Keil\STM32F4xx_DFP\1.0.8\Device\Include-DSTM32F40_41xxx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -DZQD_DEBUG -DSTM32F40_41xxx-o ..\obj\usart.o --omf_browse ..\obj\usart.crf --depend ..\obj\usart.d)
 I (..\SYSTEM\sys\sys.h)(0x59606DD0)
 I (..\USER\stm32f4xx.h)(0x59606DD0)
 I (..\CORE\core_cm4.h)(0x59606DCF)
@@ -1465,7 +1465,7 @@ I (..\SYSTEM\usart\usart.h)(0x5964D986)
 I (E:\mdk5\ARM\ARMCC\include\stdio.h)(0x53463A44)
 I (..\HARDWARE\LED\led.h)(0x59606DCF)
 F (..\README\README.txt)(0x59606DD0)()
-F (..\HARDWARE\TIMER\timer.c)(0x5969C1A7)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\USER -I..\FWLIB\inc -I..\HARDWARE -I..\HARDWARE\HCTL2020 -I..\HARDWARE\TIMER -I..\HARDWARE\LCD -I..\HARDWARE\CONTROL -I..\HARDWARE\PWM -I..\HARDWARE\LED -I..\HARDWARE\KEY -I..\HARDWARE\REMOTE -I..\HARDWARE\MPU6050 -I..\HARDWARE\IIC -I..\HARDWARE\BEEP -I..\HARDWARE\EXTI-I E:\mdk5\ARM\RV31\INC-I E:\mdk5\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include-I E:\mdk5\ARM\PACK\Keil\STM32F4xx_DFP\1.0.8\Device\Include-DSTM32F40_41xxx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -DZQD_DEBUG -DSTM32F40_41xxx-o ..\obj\timer.o --omf_browse ..\obj\timer.crf --depend ..\obj\timer.d)
+F (..\HARDWARE\TIMER\timer.c)(0x5973556D)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\USER -I..\FWLIB\inc -I..\HARDWARE -I..\HARDWARE\HCTL2020 -I..\HARDWARE\TIMER -I..\HARDWARE\LCD -I..\HARDWARE\CONTROL -I..\HARDWARE\PWM -I..\HARDWARE\LED -I..\HARDWARE\KEY -I..\HARDWARE\REMOTE -I..\HARDWARE\MPU6050 -I..\HARDWARE\IIC -I..\HARDWARE\BEEP -I..\HARDWARE\EXTI-I E:\mdk5\ARM\RV31\INC-I E:\mdk5\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include-I E:\mdk5\ARM\PACK\Keil\STM32F4xx_DFP\1.0.8\Device\Include-DSTM32F40_41xxx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -DZQD_DEBUG -DSTM32F40_41xxx-o ..\obj\timer.o --omf_browse ..\obj\timer.crf --depend ..\obj\timer.d)
 I (..\HARDWARE\TIMER\timer.h)(0x5969C1A7)
 I (..\SYSTEM\sys\sys.h)(0x59606DD0)
 I (..\USER\stm32f4xx.h)(0x59606DD0)
@@ -1504,7 +1504,7 @@ I (..\FWLIB\inc\stm32f4xx_dcmi.h)(0x59606DCF)
 I (..\FWLIB\inc\stm32f4xx_fsmc.h)(0x59606DCF)
 I (..\HARDWARE\HCTL2020\hctl2020.h)(0x59606DCF)
 I (..\HARDWARE\LCD\lcd.h)(0x59606DCF)
-I (..\HARDWARE\CONTROL\control.h)(0x59703719)
+I (..\HARDWARE\CONTROL\control.h)(0x59773779)
 I (..\SYSTEM\delay\delay.h)(0x59606DD0)
 I (..\SYSTEM\usart\usart.h)(0x5964D986)
 I (E:\mdk5\ARM\ARMCC\include\stdio.h)(0x53463A44)
@@ -1512,7 +1512,7 @@ I (..\HARDWARE\LED\led.h)(0x59606DCF)
 I (E:\mdk5\ARM\ARMCC\include\math.h)(0x53463A44)
 I (E:\mdk5\ARM\ARMCC\include\stdlib.h)(0x53463A44)
 I (..\HARDWARE\BEEP\beep.h)(0x59606DCF)
-F (..\HARDWARE\HCTL2020\hctl2020.c)(0x596B423E)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\USER -I..\FWLIB\inc -I..\HARDWARE -I..\HARDWARE\HCTL2020 -I..\HARDWARE\TIMER -I..\HARDWARE\LCD -I..\HARDWARE\CONTROL -I..\HARDWARE\PWM -I..\HARDWARE\LED -I..\HARDWARE\KEY -I..\HARDWARE\REMOTE -I..\HARDWARE\MPU6050 -I..\HARDWARE\IIC -I..\HARDWARE\BEEP -I..\HARDWARE\EXTI-I E:\mdk5\ARM\RV31\INC-I E:\mdk5\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include-I E:\mdk5\ARM\PACK\Keil\STM32F4xx_DFP\1.0.8\Device\Include-DSTM32F40_41xxx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -DZQD_DEBUG -DSTM32F40_41xxx-o ..\obj\hctl2020.o --omf_browse ..\obj\hctl2020.crf --depend ..\obj\hctl2020.d)
+F (..\HARDWARE\HCTL2020\hctl2020.c)(0x5977FC7F)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\USER -I..\FWLIB\inc -I..\HARDWARE -I..\HARDWARE\HCTL2020 -I..\HARDWARE\TIMER -I..\HARDWARE\LCD -I..\HARDWARE\CONTROL -I..\HARDWARE\PWM -I..\HARDWARE\LED -I..\HARDWARE\KEY -I..\HARDWARE\REMOTE -I..\HARDWARE\MPU6050 -I..\HARDWARE\IIC -I..\HARDWARE\BEEP -I..\HARDWARE\EXTI-I E:\mdk5\ARM\RV31\INC-I E:\mdk5\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include-I E:\mdk5\ARM\PACK\Keil\STM32F4xx_DFP\1.0.8\Device\Include-DSTM32F40_41xxx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -DZQD_DEBUG -DSTM32F40_41xxx-o ..\obj\hctl2020.o --omf_browse ..\obj\hctl2020.crf --depend ..\obj\hctl2020.d)
 I (..\HARDWARE\HCTL2020\HCTL2020.h)(0x59606DCF)
 I (..\SYSTEM\sys\sys.h)(0x59606DD0)
 I (..\USER\stm32f4xx.h)(0x59606DD0)
@@ -1552,7 +1552,7 @@ I (..\FWLIB\inc\stm32f4xx_fsmc.h)(0x59606DCF)
 I (..\SYSTEM\delay\delay.h)(0x59606DD0)
 I (..\SYSTEM\usart\usart.h)(0x5964D986)
 I (E:\mdk5\ARM\ARMCC\include\stdio.h)(0x53463A44)
-F (..\HARDWARE\LCD\lcd.c)(0x59606DCF)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\USER -I..\FWLIB\inc -I..\HARDWARE -I..\HARDWARE\HCTL2020 -I..\HARDWARE\TIMER -I..\HARDWARE\LCD -I..\HARDWARE\CONTROL -I..\HARDWARE\PWM -I..\HARDWARE\LED -I..\HARDWARE\KEY -I..\HARDWARE\REMOTE -I..\HARDWARE\MPU6050 -I..\HARDWARE\IIC -I..\HARDWARE\BEEP -I..\HARDWARE\EXTI-I E:\mdk5\ARM\RV31\INC-I E:\mdk5\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include-I E:\mdk5\ARM\PACK\Keil\STM32F4xx_DFP\1.0.8\Device\Include-DSTM32F40_41xxx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -DZQD_DEBUG -DSTM32F40_41xxx-o ..\obj\lcd.o --omf_browse ..\obj\lcd.crf --depend ..\obj\lcd.d)
+F (..\HARDWARE\LCD\lcd.c)(0x59759023)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\USER -I..\FWLIB\inc -I..\HARDWARE -I..\HARDWARE\HCTL2020 -I..\HARDWARE\TIMER -I..\HARDWARE\LCD -I..\HARDWARE\CONTROL -I..\HARDWARE\PWM -I..\HARDWARE\LED -I..\HARDWARE\KEY -I..\HARDWARE\REMOTE -I..\HARDWARE\MPU6050 -I..\HARDWARE\IIC -I..\HARDWARE\BEEP -I..\HARDWARE\EXTI-I E:\mdk5\ARM\RV31\INC-I E:\mdk5\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include-I E:\mdk5\ARM\PACK\Keil\STM32F4xx_DFP\1.0.8\Device\Include-DSTM32F40_41xxx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -DZQD_DEBUG -DSTM32F40_41xxx-o ..\obj\lcd.o --omf_browse ..\obj\lcd.crf --depend ..\obj\lcd.d)
 I (..\HARDWARE\LCD\lcd.h)(0x59606DCF)
 I (..\SYSTEM\sys\sys.h)(0x59606DD0)
 I (..\USER\stm32f4xx.h)(0x59606DD0)
@@ -1589,7 +1589,7 @@ I (..\FWLIB\inc\stm32f4xx_can.h)(0x59606DCF)
 I (..\FWLIB\inc\stm32f4xx_dac.h)(0x59606DCF)
 I (..\FWLIB\inc\stm32f4xx_dcmi.h)(0x59606DCF)
 I (..\FWLIB\inc\stm32f4xx_fsmc.h)(0x59606DCF)
-I (..\HARDWARE\CONTROL\control.h)(0x59703719)
+I (..\HARDWARE\CONTROL\control.h)(0x59773779)
 I (..\SYSTEM\delay\delay.h)(0x59606DD0)
 I (..\SYSTEM\usart\usart.h)(0x5964D986)
 I (E:\mdk5\ARM\ARMCC\include\stdio.h)(0x53463A44)
@@ -1638,8 +1638,8 @@ I (..\HARDWARE\LED\led.h)(0x59606DCF)
 I (..\SYSTEM\usart\usart.h)(0x5964D986)
 I (E:\mdk5\ARM\ARMCC\include\stdio.h)(0x53463A44)
 I (..\SYSTEM\delay\delay.h)(0x59606DD0)
-F (..\HARDWARE\CONTROL\control.c)(0x59703705)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\USER -I..\FWLIB\inc -I..\HARDWARE -I..\HARDWARE\HCTL2020 -I..\HARDWARE\TIMER -I..\HARDWARE\LCD -I..\HARDWARE\CONTROL -I..\HARDWARE\PWM -I..\HARDWARE\LED -I..\HARDWARE\KEY -I..\HARDWARE\REMOTE -I..\HARDWARE\MPU6050 -I..\HARDWARE\IIC -I..\HARDWARE\BEEP -I..\HARDWARE\EXTI-I E:\mdk5\ARM\RV31\INC-I E:\mdk5\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include-I E:\mdk5\ARM\PACK\Keil\STM32F4xx_DFP\1.0.8\Device\Include-DSTM32F40_41xxx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -DZQD_DEBUG -DSTM32F40_41xxx-o ..\obj\control.o --omf_browse ..\obj\control.crf --depend ..\obj\control.d)
-I (..\HARDWARE\CONTROL\control.h)(0x59703719)
+F (..\HARDWARE\CONTROL\control.c)(0x59787EF8)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I..\CORE -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\USER -I..\FWLIB\inc -I..\HARDWARE -I..\HARDWARE\HCTL2020 -I..\HARDWARE\TIMER -I..\HARDWARE\LCD -I..\HARDWARE\CONTROL -I..\HARDWARE\PWM -I..\HARDWARE\LED -I..\HARDWARE\KEY -I..\HARDWARE\REMOTE -I..\HARDWARE\MPU6050 -I..\HARDWARE\IIC -I..\HARDWARE\BEEP -I..\HARDWARE\EXTI-I E:\mdk5\ARM\RV31\INC-I E:\mdk5\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include-I E:\mdk5\ARM\PACK\Keil\STM32F4xx_DFP\1.0.8\Device\Include-DSTM32F40_41xxx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -DZQD_DEBUG -DSTM32F40_41xxx-o ..\obj\control.o --omf_browse ..\obj\control.crf --depend ..\obj\control.d)
+I (..\HARDWARE\CONTROL\control.h)(0x59773779)
 I (..\SYSTEM\sys\sys.h)(0x59606DD0)
 I (..\USER\stm32f4xx.h)(0x59606DD0)
 I (..\CORE\core_cm4.h)(0x59606DCF)
@@ -1921,7 +1921,7 @@ I (..\SYSTEM\delay\delay.h)(0x59606DD0)
 I (..\SYSTEM\usart\usart.h)(0x5964D986)
 I (E:\mdk5\ARM\ARMCC\include\stdio.h)(0x53463A44)
 I (..\HARDWARE\BEEP\beep.h)(0x59606DCF)
-I (..\HARDWARE\CONTROL\control.h)(0x59703719)
+I (..\HARDWARE\CONTROL\control.h)(0x59773779)
 I (..\HARDWARE\LCD\lcd.h)(0x59606DCF)
 I (E:\mdk5\ARM\ARMCC\include\stdlib.h)(0x53463A44)
 I (E:\mdk5\ARM\ARMCC\include\math.h)(0x53463A44)

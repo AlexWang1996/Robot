@@ -74,7 +74,8 @@ void TIM7_IRQHandler(void)
 		else
 		{
 			time_out_flag=1;
-			//charge(0);
+			shot();
+				
 		}
 		
 

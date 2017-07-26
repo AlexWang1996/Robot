@@ -8,10 +8,7 @@
 struct robot robot_zqd;
 u32 uart_data[3]={0,2000,1000};			//串口接收数据存储，x位置，深度，半径
 u32 uart3_data[3]={0,2000,1000};		//串口接收数据存储，x位置，深度，半径
-u8 lankuang_state;
-u8 dixian_state;
-u8 sanfen_state;
-u8 zhongquan_state;
+
 void control_init(void)
 {
 	robot_zqd.X = 0;		//机器人在坐标系中x坐标
@@ -495,6 +492,7 @@ void jixiebi_down(void)
 	u16 i,t;
 	u16 W=3300;
 	u16 nms=2000;
+
 	
 	if(xianwei_down()==1)
 	{
@@ -527,6 +525,7 @@ void jixiebi_down(void)
 	}
 	TIM_SetCompare2(TIM9,MOTOR_STATIC_2);
 	TIM_SetCompare1(TIM9,MOTOR_STATIC_1);
+
 	#ifdef ZQD_DEBUG
 	BEEP = 0;
 	#endif
@@ -540,6 +539,7 @@ void jixiebi_up(void)
 	u16 i,t;
 	u16 W=2700;
 	u16 nms=2000;
+
 	
 	if(xianwei_up()==1)
 	{
@@ -571,6 +571,7 @@ void jixiebi_up(void)
 	}
 	TIM_SetCompare1(TIM9,MOTOR_STATIC_1);
 	TIM_SetCompare2(TIM9,MOTOR_STATIC_2);	
+
 	#ifdef ZQD_DEBUG
 	BEEP = 0;
 	#endif
@@ -652,9 +653,593 @@ void robot_straight_Y(float Y_I,float V,float distance,u32 a_start,u32 a_stop)
 	
 }
 
+//定点直行 前三个参数为目标点,后三个参数为中间点
+void robot_certain_point(float X_I,float Y_I,float Theta_I,float pointX, float pointY,float pointTheta) //
+{
+	float D_Theta,D_X,D_Y,Vw=0,sx=0,sy=0;
+	float point_Theta,point_X,point_Y,point_Vw=0,point_sx=0,point_sy=0;
+	
+	point_Theta=pointTheta-robot_zqd.theta;
+	point_X=pointX-robot_zqd.X;
+	point_Y=pointY-robot_zqd.Y;
+	
+	D_Theta = Theta_I/180*PI - robot_zqd.theta;
+	D_X = X_I - robot_zqd.X;
+	D_Y = Y_I - robot_zqd.Y;
+	
+		
+		while(fabs(point_Y) > 0.05f || fabs(point_X) > 0.05f)
+		{
+			//如果目标距离y大于x
+		 if(fabs(point_Y)>fabs(point_X))
+		 {
+			 //y轴方向速度不减速为0
+			if(point_Y > 0.05f)
+			{
+				if(point_Y < 0.2f){		
+					if(point_sy<=0.25f)
+					point_sy = 0.25f;
+				}
+				else if(point_Y < 0.3f){ 
+					if(point_sy<=2)				
+					point_sy = 2;
+				}
+				else if(point_Y < 0.8f){
+					if(point_sy<=4)				
+					point_sy = 4;
+				}
+				else if(point_Y < 1.5f){    
+					if(point_sy<=6)
+					point_sy = 6;
+				}
+				
+				
 
+				
+				if(point_Y >= 1.5f)				
+				{
+					point_sy = 8;
+					if(robot_zqd.Vy < 0.3f)
+					{
+						point_sy = 2;
+					}
+					else if(robot_zqd.Vy < 0.5f)
+					{
+						point_sy = 4;
+					}
+					else if(robot_zqd.Vy < 0.9f)
+					{
+						point_sy = 6;
+					}
 
+				}
+				
+			}
+			else if(point_Y < -0.05f)
+			{
+				if(point_Y > -0.2f){	
+					if(point_sy>=-0.25f)
+						point_sy = -0.25f;
+				}
+				else if(point_Y > -0.3f){  
+					if(point_sy>=-2)
+						point_sy = -2;
+				}
+				else if(point_Y > -0.8f){ 
+					if(point_sy>=-4)
+						point_sy = -4;
+				}
+				else if(point_Y > -1.5f){ 
+					if(point_sy>=-6)				
+						point_sy = -6;
+				}
+				
+				if(point_Y < -1.5f)
+				{
+					point_sy = -8;
+					if(robot_zqd.Vy > -0.3f)
+					{
+						point_sy = -2;
+					}
+					else if(robot_zqd.Vy > -0.5f)
+					{
+						point_sy = -4;
+					}
+					else if(robot_zqd.Vy > -0.9f)
+					{
+						point_sy = -6;
+					}
+				}
 
+				
+				
+				
+
+			}else 
+				point_sy = 0;
+		
+			
+			if(point_X > 0.05f)
+			{
+				if(point_X > 1.5f)
+				{
+					point_sx = 8;
+					if(robot_zqd.Vx < 0.1f)
+						point_sx = 0.5;
+					else if(robot_zqd.Vx < 0.2f)
+						point_sx = 1;
+					else if(robot_zqd.Vx < 0.4f)
+						point_sx = 2;
+					else if(robot_zqd.Vx < 0.58f)
+						point_sx = 4;
+					else if(robot_zqd.Vx < 7.5f)
+						point_sx = 6;
+				}
+				else if(point_X < 1.5f)
+				{
+					if(point_X > 0.2f)
+					{
+						point_sx = 2;
+					}
+					else if(point_X > 0.15f)
+					{
+						point_sx = 1;
+					}
+					else if(point_X > 0.1f)
+					{
+						point_sx = 0.5f;
+					}
+					else
+						point_sx = 0.25f;
+				}
+			}
+			else if(point_X < -0.05f)
+			{
+				if(point_X < -1.5f)
+				{
+					point_sx = -8;
+					if(robot_zqd.Vx > -0.1f)
+						point_sx = -0.5;
+					else if(robot_zqd.Vx > -0.2f)
+						point_sx = -1;
+					else if(robot_zqd.Vx > -0.4f)
+						point_sx = -2;
+					else if(robot_zqd.Vx > -0.58f)
+						point_sx = -4;
+					else if(robot_zqd.Vx > -7.5f)
+						point_sx = -6;
+				}
+				else if(point_X > -1.5f)
+				{
+					if(point_X < -0.2f)
+					{
+						point_sx = -2;
+					}
+					else if(point_X < -0.15f)
+					{
+						point_sx = -1;
+					}
+					else if(point_X < -0.1f)
+					{
+						point_sx = -0.5f;
+					}
+					else
+						point_sx = -0.25f;
+				}
+			}
+			else 
+				point_sx = 0;
+		}
+		 
+		//如果目标距离x大于y
+		if(fabs(point_X)>fabs(point_Y))
+		{
+			if(point_Y > 0.05f)
+			{
+				if(point_Y >= 1.5f)
+				{
+					point_sy = 8;
+					if(robot_zqd.Vy < 0.3f)
+						point_sy = 2;
+					else if(robot_zqd.Vy < 0.5f)
+						point_sy = 4;
+					else if(robot_zqd.Vy < 0.9f)
+						point_sy = 6;
+				}
+				else
+				{
+					point_sy = 8;
+				}
+				if(point_Y < 1.5f){    
+					point_sy = 6;
+				}
+				if(point_Y < 0.8f){    
+					point_sy = 4;
+				}
+				if(point_Y < 0.3f){    
+					point_sy = 2;
+				}
+				if(point_Y < 0.2f)		point_sy = 0.25;
+				
+			}
+			else if(point_Y < -0.05f)
+			{
+				if(point_Y < -1.5f)
+				{
+					point_sy = -8;
+					if(robot_zqd.Vy > -0.3f)
+						point_sy = -2;
+					else if(robot_zqd.Vy > -0.5f)
+						point_sy = -4;
+					else if(robot_zqd.Vy > -0.9f)
+						point_sy = -6;
+				}
+				else
+				{
+					point_sy = -8;
+				}
+				if(point_Y > -1.5f){    
+					point_sy = -6;
+				}
+				if(point_Y > -0.8f){    
+					point_sy = -4;
+				}
+				if(point_Y > -0.3f){    
+					point_sy = -2;
+				}
+				if(point_Y > -0.2f)	    point_sy = -0.25;
+			}
+			else 
+				point_sy = 0;
+			
+			//x方向速度不减速为0
+			if(point_X > 0.05f)
+			{
+				if(point_X < 0.1f)
+				{
+					if(point_sx <= 0.25f)
+						point_sx = 0.25f;
+				}
+				else if(point_X < 0.15f)
+				{
+					if(point_sx <= 0.5f)
+						point_sx = 0.5f;
+				}
+				else if(point_X < 0.2f)
+				{
+					if(point_sx <= 1)
+						point_sx = 1;
+				}
+				else if(point_X < 1.5f)
+				{
+					if(point_sx <= 2)
+						point_sx = 2;
+				}
+				if(point_X >= 1.5f)
+				{
+					point_sx = 8;
+					if(robot_zqd.Vx < 0.1f)
+						point_sx = 0.5;
+					else if(robot_zqd.Vx < 0.2f)
+						point_sx = 1;
+					else if(robot_zqd.Vx < 0.4f)
+						point_sx = 2;
+					else if(robot_zqd.Vx < 0.58f)
+						point_sx = 4;
+					else if(robot_zqd.Vx < 7.5f)
+						point_sx = 6;
+				}
+			}
+			else if(point_X < -0.05f)
+			{
+				if(point_X > -0.1f)
+				{
+					if(point_sx >= -0.25f)
+						point_sx = -0.25f;
+				}
+				else if(point_X > -0.15f)
+				{
+					if(point_sx >= -0.5f)
+						point_sx = -0.5f;
+				}
+				else if(point_X > -0.2f)
+				{
+					if(point_sx >= -1)
+						point_sx = -1;
+				}
+				else if(point_X > -1.5f)
+				{
+					if(point_sx >= -2)
+						point_sx = -2;
+				}
+				if(point_X < -1.5f)
+				{
+					point_sx = -8;
+					if(robot_zqd.Vx > -0.1f)
+						point_sx = -0.5;
+					else if(robot_zqd.Vx > -0.2f)
+						point_sx = -1;
+					else if(robot_zqd.Vx > -0.4f)
+						point_sx = -2;
+					else if(robot_zqd.Vx > -0.58f)
+						point_sx = -4;
+					else if(robot_zqd.Vx > -7.5f)
+						point_sx = -6;
+				}
+			}
+			else 
+				point_sx = 0;
+		}
+		
+		
+		if(point_Theta>0&&(point_Theta<PI))  
+		{
+			point_Vw=point_Theta*500;
+		}
+		else if(point_Theta>0&&(point_Theta>=PI)) 
+		{
+			point_Theta = 2*PI-point_Theta;
+			point_Vw=-point_Theta*500;
+		}
+		else if(point_Theta<0&&(point_Theta>=-PI)) 
+		{
+			point_Theta = -point_Theta;
+			point_Vw=-point_Theta*500;
+		}
+		else if(point_Theta<0&&(point_Theta<-PI)) 
+		{
+			point_Theta = 2*PI+point_Theta;
+			point_Vw=point_Theta*500;
+		}
+		else 
+			point_Vw=point_Vw;
+		
+		//小于60°大于30°匀速
+		//实际PWM为201
+		if(point_Theta > 0.523599f)
+		{
+			if(point_Vw>0)
+				point_Vw = 300;
+			else
+				point_Vw = -300;
+		}
+		
+		//小于30°大于5°	PWM40
+		if(point_Theta < 0.523599f)
+		{
+			if(point_Vw>0)
+				point_Vw = 150;
+			else
+				point_Vw = -150;
+		}
+		//小于5°	pwm8
+		if(point_Theta < 0.0872665f)
+		{
+			if(point_Vw>0)
+				point_Vw = 20;
+			else
+				point_Vw = -20;
+		}
+		
+		
+		set_motor_vx_vy_w(point_sx*12,point_sy*100,point_Vw);
+		control1_W(robot_zqd.pwm[0]);
+		control2_W(robot_zqd.pwm[1]);
+		control3_W(robot_zqd.pwm[2]);
+		point_Theta = pointTheta/180*PI - robot_zqd.theta;
+		point_X = pointX - robot_zqd.X;
+		point_Y = pointY - robot_zqd.Y;
+	}
+	
+	
+	while(fabs(D_Y) > 0.05f || fabs(D_X) > 0.05f)
+	{
+		if(D_Y > 0.05f)
+		{
+			
+			if(D_Y >= 1.5f)
+			{
+				sy = 8;
+				if(robot_zqd.Vy < 0.3f)
+					sy = 2;
+				else if(robot_zqd.Vy < 0.5f)
+					sy = 4;
+				else if(robot_zqd.Vy < 0.9f)
+					sy = 6;
+			}
+			else
+			{
+				sy = 8;
+			}
+			if(D_Y < 1.5f){    
+				sy = 6;
+			}
+			if(D_Y < 0.8f){    
+				sy = 4;
+			}
+			if(D_Y < 0.3f){    
+				sy = 2;
+			}
+			if(D_Y < 0.2f)		sy = 0.25;
+			
+		}
+		else if(D_Y < -0.05f)
+		{
+			if(D_Y < -1.5f)
+			{
+				sy = -8;
+				if(robot_zqd.Vy > -0.3f)
+					sy = -2;
+				else if(robot_zqd.Vy > -0.5f)
+					sy = -4;
+				else if(robot_zqd.Vy > -0.9f)
+					sy = -6;
+			}
+			else
+			{
+				sy = -8;
+			}
+			if(D_Y > -1.5f){    
+				sy = -6;
+			}
+			if(D_Y > -0.8f){    
+				sy = -4;
+			}
+			if(D_Y > -0.3f){    
+				sy = -2;
+			}
+			if(D_Y > -0.2f)	    sy = -0.25;
+		}
+		else 
+			sy = 0;
+		
+		
+		if(D_X > 0.05f)
+		{
+			if(D_X > 1.5f)
+			{
+				sx = 8;
+				if(robot_zqd.Vx < 0.1f)
+					sx = 0.5;
+				else if(robot_zqd.Vx < 0.2f)
+					sx = 1;
+				else if(robot_zqd.Vx < 0.4f)
+					sx = 2;
+				else if(robot_zqd.Vx < 0.58f)
+					sx = 4;
+				else if(robot_zqd.Vx < 7.5f)
+					sx = 6;
+			}
+			else if(D_X < 1.5f)
+			{
+				if(D_X > 0.2f)
+				{
+					sx = 2;
+				}
+				else if(D_X > 0.15f)
+				{
+					sx = 1;
+				}
+				else if(D_X > 0.1f)
+				{
+					sx = 0.5f;
+				}
+				else
+					sx = 0.25f;
+			}
+		}
+		else if(D_X < -0.05f)
+		{
+			if(D_X < -1.5f)
+			{
+				sx = -8;
+				if(robot_zqd.Vx > -0.1f)
+					sx = -0.5;
+				else if(robot_zqd.Vx > -0.2f)
+					sx = -1;
+				else if(robot_zqd.Vx > -0.4f)
+					sx = -2;
+				else if(robot_zqd.Vx > -0.58f)
+					sx = -4;
+				else if(robot_zqd.Vx > -7.5f)
+					sx = -6;
+			}
+			else if(D_X > -1.5f)
+			{
+				if(D_X < -0.2f)
+				{
+					sx = -2;
+				}
+				else if(D_X < -0.15f)
+				{
+					sx = -1;
+				}
+				else if(D_X < -0.1f)
+				{
+					sx = -0.5f;
+				}
+				else
+					sx = -0.25f;
+			}
+		}
+		else 
+			sx = 0;
+		
+		
+		if(D_Theta>0&&(D_Theta<PI))  
+		{
+			Vw=D_Theta*500;
+		}
+		else if(D_Theta>0&&(D_Theta>=PI)) 
+		{
+			D_Theta = 2*PI-D_Theta;
+			Vw=-D_Theta*500;
+		}
+		else if(D_Theta<0&&(D_Theta>=-PI)) 
+		{
+			D_Theta = -D_Theta;
+			Vw=-D_Theta*500;
+		}
+		else if(D_Theta<0&&(D_Theta<-PI)) 
+		{
+			D_Theta = 2*PI+D_Theta;
+			Vw=D_Theta*500;
+		}
+		else 
+			Vw=Vw;
+		
+		//小于60°大于30°匀速
+		//实际PWM为201
+		if(D_Theta > 0.523599f)
+		{
+			if(Vw>0)
+				Vw = 300;
+			else
+				Vw = -300;
+		}
+		
+		//小于30°大于5°	PWM40
+		if(D_Theta < 0.523599f)
+		{
+			if(Vw>0)
+				Vw = 150;
+			else
+				Vw = -150;
+		}
+		//小于5°	pwm8
+		if(D_Theta < 0.0872665f)
+		{
+			if(Vw>0)
+				Vw = 20;
+			else
+				Vw = -20;
+			
+		}
+		
+		
+		
+		
+		set_motor_vx_vy_w(sx*12,sy*100,Vw);
+		control1_W(robot_zqd.pwm[0]);
+		control2_W(robot_zqd.pwm[1]);
+		control3_W(robot_zqd.pwm[2]);
+		D_Theta = Theta_I/180*PI - robot_zqd.theta;
+		D_X = X_I - robot_zqd.X;
+		D_Y = Y_I - robot_zqd.Y;
+	}
+	
+	control1_W(0);
+	control2_W(0);
+	control3_W(0);
+	delay_ms(1000);
+	robot_turnOrigin_stage(Theta_I);
+	
+	
+	
+	
+	
+	
+}
 
 //直线行走,阶梯变速
 //X_I:目标坐标的X
@@ -1053,23 +1638,23 @@ void robot_straight_ObsAvoidance(float X_I,float Y_I,float Theta_I)
 			else
 				Vw = -20;
 		}
-		
+		//如下避障
 		if(uart_getLaser())
 		{
-			if(uart3_data[1] < fabs(D_X)*1000 || uart3_data[1] < fabs(D_Y)*1000)
+			if(uart3_data[1] < fabs(D_X)*1000 || uart3_data[1] < fabs(D_Y)*1000) // 此处发现返回距离小于目标距离->发现障碍
 			{
-			//	deg = uart3_data[0] - (float)MID_LASER;
-				deg = (uart3_data[0] - (float)MID_LASER) * PI /180;
+			
+				deg = (uart3_data[0] - (float)MID_LASER) * PI /180; //角度变换成弧度制
 				if(deg < 0 )
 					deg = -deg;
-				if(uart3_data[1] < 2500 && uart3_data[1] * sin(deg) <400) //原来4000
+				if(uart3_data[1] < 2500 && uart3_data[1] * sin(deg) <400) //原来4000  //准备避障寻找合适角度
 				{
 					control1_W(robot_zqd.pwm[0]);
 					control2_W(robot_zqd.pwm[0]);
 					control3_W(robot_zqd.pwm[0]);
 					
-					dis = uart3_data[1] + 1500;
-					d_x = robot_zqd.X;
+					dis = uart3_data[1] + 1500; //雷达返回距离+1.5米
+					d_x = robot_zqd.X;    //记录下当前的坐标系X
 					d_y = robot_zqd.Y;
 					D_X = d_x - robot_zqd.X;
 					D_Y = d_y - robot_zqd.Y;
@@ -1083,9 +1668,11 @@ void robot_straight_ObsAvoidance(float X_I,float Y_I,float Theta_I)
 							control1_W(robot_zqd.pwm[0]);
 							control2_W(robot_zqd.pwm[1]);
 							control3_W(robot_zqd.pwm[2]);
-							continue;
+							//continue;
 						}
 						
+						
+					/*	
 						if(fabs(robot_zqd.Vx) > 0.5f || robot_zqd.Vy > 0.5f)
 						{
 							set_motor_vx_vy_w_R(0,0,0);
@@ -1095,8 +1682,10 @@ void robot_straight_ObsAvoidance(float X_I,float Y_I,float Theta_I)
 							delay_ms(30000);
 							continue;
 						}
+					*/
 						
-						if(D_Y*1000 < -dis || D_Y*1000 > dis || D_X*1000 < -dis || D_X*1000 > dis)
+						
+						if(D_Y*1000 < -dis || D_Y*1000 > dis || D_X*1000 < -dis || D_X*1000 > dis) //发现距离满足条件已经成功避障
 						{
 							set_motor_vx_vy_w_R(0,0,0);
 							control1_W(robot_zqd.pwm[0]);
@@ -1106,17 +1695,17 @@ void robot_straight_ObsAvoidance(float X_I,float Y_I,float Theta_I)
 						}
 						
 						deg = (uart3_data[0] - (float)MID_LASER) * PI /180;
-						if(uart3_data[1] < 2500 && deg < 0 && uart3_data[1] * sin(deg) > -400)
+						if(uart3_data[1] < 2500 && deg < 0 && uart3_data[1] * sin(deg) > -400)//满足准备避障行走
 						{
 							set_motor_vx_vy_w_R(8,25,Vw); //原来80 25 Vw
 						}
 						else if(uart3_data[1] < 2500 && deg > 0 && uart3_data[1] * sin(deg) <400)
 						{
-							set_motor_vx_vy_w_R(-8,25,Vw);//原来
+							set_motor_vx_vy_w_R(-8,25,Vw);//原来-80 25 Vw
 						}
 						else
 						{
-							set_motor_vx_vy_w_R(0,25,Vw);
+							set_motor_vx_vy_w_R(0,25,Vw); //直行
 						}
 						
 						control1_W(robot_zqd.pwm[0]);
@@ -1364,7 +1953,9 @@ void robot_turnOrigin_stage(float theta)
 			Vw = -40;
 	}
 	
-	while(D_Theta>0.015f){
+	
+	while(D_Theta>0.015f)
+	{
 		set_motor_vx_vy_w(0,0,Vw);		
 		control1_W(robot_zqd.pwm[0]);
 		control2_W(robot_zqd.pwm[1]);
@@ -1555,10 +2146,10 @@ u8 uart_getData(void)
 			uart_data[1]+=(USART_RX_BUF[6]-'0');
 		USART_RX_BUF[6] = ' ';
 
-		LCD_ShowString(30+200,380,200,16,16,"View :pix");	
-		LCD_ShowNum(30+200+48+8+45,380,uart_data[0],4,16);		
-		LCD_ShowString(30+200,400,200,16,16,"View :length");	
-		LCD_ShowNum(30+200+48+8+45,400,uart_data[1],4,16);	
+		LCD_ShowString(30+200,420,200,16,16,"View :pix");	
+		LCD_ShowNum(30+200+48+8+45,420,uart_data[0],4,16);		
+		LCD_ShowString(30+200,440,200,16,16,"View :length");	
+		LCD_ShowNum(30+200+48+8+45,440,uart_data[1],4,16);	
 		
 		USART_RX_STA=0;
 		receive=0;
@@ -1566,7 +2157,7 @@ u8 uart_getData(void)
 	
 	if(uart_data[0]<10 || uart_data[0] >630)
 		return 0;
-	if(uart_data[1]<50)
+	if(uart_data[1]<500)
 		return 0;
 	if(uart_data[2]==0)
 		return 0;
@@ -1618,16 +2209,16 @@ u8 uart_getLaser(void)
 		
 		
 
-		LCD_ShowString(30+200,420,200,16,16,"Radar:rad");	
-		LCD_ShowNum(30+200+48+8+45,420,uart3_data[0],4,16);		
-		LCD_ShowString(30+200,440,200,16,16,"Radar:length");	
-		LCD_ShowNum(30+200+48+8+45,440,uart3_data[1],4,16);	
+		LCD_ShowString(30+200,460,200,16,16,"Radar:rad");	
+		LCD_ShowNum(30+200+48+8+45,460,uart3_data[0],4,16);		
+		LCD_ShowString(30+200,480,200,16,16,"Radar:length");	
+		LCD_ShowNum(30+200+48+8+45,480,uart3_data[1],4,16);	
 		
 		USART3_RX_STA=0;
 		receive3=0;
 	}
 	
-	if(uart3_data[0]<240 && uart3_data[0] >300)
+	if(uart3_data[0]<240 || uart3_data[0] >300) //原来&&
 		return 0;
 	if(uart3_data[1]>4000)
 		return 0;
@@ -1698,7 +2289,7 @@ void find_ball(u8 ball)
 	receive=0;
 	do{
 		while(receive != 1);
-		USART_SendData(USART1, receive);
+	
 		if(!uart_getData())
 		{	
 			if(time == 0)
@@ -1706,7 +2297,7 @@ void find_ball(u8 ball)
 			}
 			else if(time++ <5)
 			{
-				set_motor_vx_vy_w_R(0 ,0,0);
+				set_motor_vx_vy_w_R(0,0,0);
 				control1_W(robot_zqd.pwm[0]);
 				control2_W(robot_zqd.pwm[1]);
 				control3_W(robot_zqd.pwm[2]);
@@ -1734,49 +2325,49 @@ void find_ball(u8 ball)
 			control2_W(robot_zqd.pwm[1]);
 			control3_W(robot_zqd.pwm[2]);
 		}
-		else if(uart_data[1] > 400)
+		else if(uart_data[1] > 4000)
 		{
 			set_motor_vx_vy_w(0,0,0);
 			control1_W(robot_zqd.pwm[0]);
 			control2_W(robot_zqd.pwm[1]);
 			control3_W(robot_zqd.pwm[2]);
 		}
-		else if((uart_data[0]< MID_VIEW-30) && uart_data[1]>130)
+		else if((uart_data[0]< MID_VIEW-30) && uart_data[1]>1300)
 		{
 			set_motor_vx_vy_w_R(-5,10,0);  //原来 -50 10 0
 			control1_W(robot_zqd.pwm[0]);
 			control2_W(robot_zqd.pwm[1]);
 			control3_W(robot_zqd.pwm[2]);
 		}
-		else if((uart_data[0] > MID_VIEW+30) && uart_data[1] > 130)
+		else if((uart_data[0] > MID_VIEW+30) && uart_data[1] > 1300)
 		{
 			set_motor_vx_vy_w_R(5,10,0);
 			control1_W(robot_zqd.pwm[0]);  //原来50 10 0
 			control2_W(robot_zqd.pwm[1]);
 			control3_W(robot_zqd.pwm[2]);
 		}
-		else if(uart_data[1] > 130)
+		else if(uart_data[1] > 1300)
 		{
 			set_motor_vx_vy_w_R(0,20,0);
 			control1_W(robot_zqd.pwm[0]);
 			control2_W(robot_zqd.pwm[1]);
 			control3_W(robot_zqd.pwm[2]);
 		}
-		else if((uart_data[0]< MID_VIEW-20) && uart_data[1] > 70)
+		else if((uart_data[0]< MID_VIEW-20) && uart_data[1] > 700)
 		{
 			set_motor_vx_vy_w_R(-4,0,0);  //原来-40 0 0
 			control1_W(robot_zqd.pwm[0]);
 			control2_W(robot_zqd.pwm[1]);
 			control3_W(robot_zqd.pwm[2]);
 		}
-		else if((uart_data[0] > MID_VIEW+20) && (uart_data[1] >70))
+		else if((uart_data[0] > MID_VIEW+20) && (uart_data[1] >700))
 		{
 			set_motor_vx_vy_w_R(4,0,0); //原来4 0 0
 			control1_W(robot_zqd.pwm[0]);
 			control2_W(robot_zqd.pwm[1]);
 			control3_W(robot_zqd.pwm[2]);
 		}
-		else if(uart_data[1]>70)
+		else if(uart_data[1]>700)
 		{
 			set_motor_vx_vy_w_R(0,12,0);
 			control1_W(robot_zqd.pwm[0]);
@@ -1900,7 +2491,7 @@ void find_ball_sanfen(u8 ball)
 	USART_RX_STA=0;
 	receive=0;
 	
-	//清空串口接收数据缓存
+	//清空串口接收数据缓存   
 	receive3 = 0;
 	USART3_RX_STA = 0;
 	
@@ -1910,9 +2501,11 @@ void find_ball_sanfen(u8 ball)
 	LCD_Show_pwm();
 	
 	//防止无效数据
+	
 	while(receive3 != 1);
 	receive3 = 0;
 	USART3_RX_STA = 0;
+
 	
 	do{
 		while(receive != 1);
@@ -1936,6 +2529,7 @@ void find_ball_sanfen(u8 ball)
 		}
 		else
 			time = 1;
+		
 		uart_getLaser();
 		
 		if(time == 0)
@@ -1954,28 +2548,28 @@ void find_ball_sanfen(u8 ball)
 			control2_W(robot_zqd.pwm[1]);
 			control3_W(robot_zqd.pwm[2]);
 		}
-		else if(uart_data[1]>400)
+		else if(uart_data[1]>4000)
 		{
 			set_motor_vx_vy_w_R(0,0,0);
 			control1_W(robot_zqd.pwm[0]);
 			control2_W(robot_zqd.pwm[1]);
 			control3_W(robot_zqd.pwm[2]);
 		}
-		else if((uart_data[0]< MID_VIEW-30) && uart_data[1]>130)
+		else if((uart_data[0]< MID_VIEW-30) && uart_data[1]>1300)
 		{
 			set_motor_vx_vy_w_R(-5,10,0); //原来-50 10 0
 			control1_W(robot_zqd.pwm[0]);
 			control2_W(robot_zqd.pwm[1]);
 			control3_W(robot_zqd.pwm[2]);
 		}
-		else if((uart_data[0] > MID_VIEW+30) && uart_data[1] > 130)
+		else if((uart_data[0] > MID_VIEW+30) && uart_data[1] > 1300)
 		{
 			set_motor_vx_vy_w_R(5,10,0);//原来 50 10 0
 			control1_W(robot_zqd.pwm[0]);
 			control2_W(robot_zqd.pwm[1]);
 			control3_W(robot_zqd.pwm[2]);
 		}
-		else if(uart_data[1] > 130)
+		else if(uart_data[1] > 1300)
 		{
 			set_motor_vx_vy_w_R(0,20,0);
 			control1_W(robot_zqd.pwm[0]);
@@ -1985,141 +2579,208 @@ void find_ball_sanfen(u8 ball)
 		else
 			break;
 	}while(1);
-
 	
-	//精确瞄准
-	if(uart3_data[0] > MID_LASER-15 && uart3_data[0] < MID_LASER+15)
-	{
-		LCD_ShowString(30+200,460,200,16,16,"Radar!");
-		//雷达数据相同，按照雷达数据寻找
-		while(1)
-		{
-			while(receive3 != 1);
-			if(!uart_getLaser())
-			{	
-				set_motor_vx_vy_w_R(0,0,0);
-				control1_W(robot_zqd.pwm[0]);
-				control2_W(robot_zqd.pwm[1]);
-				control3_W(robot_zqd.pwm[2]);
-				continue;
-			}
-			if((uart3_data[0]< MID_LASER-10) && uart3_data[1] >700)
-			{
-				set_motor_vx_vy_w_R(-10,0,0);//原来-100 0 0
-				control1_W(robot_zqd.pwm[0]);
-				control2_W(robot_zqd.pwm[1]);
-				control3_W(robot_zqd.pwm[2]);
-			}
-			else if((uart3_data[0] > MID_LASER+10) && uart3_data[1] >700)
-			{
-				set_motor_vx_vy_w_R(10,0,0); //原来100 0 0
-				control1_W(robot_zqd.pwm[0]);
-				control2_W(robot_zqd.pwm[1]);
-				control3_W(robot_zqd.pwm[2]);
-			}
-			else if(uart3_data[1]>700)
-			{
-				set_motor_vx_vy_w_R(0,14,0);
-				control1_W(robot_zqd.pwm[0]);
-				control2_W(robot_zqd.pwm[1]);
-				control3_W(robot_zqd.pwm[2]);
-			}
-			else if(uart3_data[0]< MID_LASER-5)
-			{
-				set_motor_vx_vy_w_R(-10,0,0);//原来-100 0 0
-				control1_W(robot_zqd.pwm[0]);
-				control2_W(robot_zqd.pwm[1]);
-				control3_W(robot_zqd.pwm[2]);
-			}
-			else if(uart3_data[0] > MID_LASER+5)
-			{
-				set_motor_vx_vy_w_R(10,0,0);//原来100 0 0
-				control1_W(robot_zqd.pwm[0]);
-				control2_W(robot_zqd.pwm[1]);
-				control3_W(robot_zqd.pwm[2]);
-			}
-			else 
-			{
-				control1_W(0);
-				control2_W(0);
-				control3_W(0);
-				jixiebi_down();
-				set_motor_vx_vy_w_R(0,7,0);
-				control1_W(robot_zqd.pwm[0]);
-				control2_W(robot_zqd.pwm[1]);
-				control3_W(robot_zqd.pwm[2]);
-				if(uart3_data[1] < 350)
-					break;
+
+			
+
+	if(uart_data[1]>800)
+				{
+				LCD_ShowString(30+200,500,200,16,16,"View!");
+				//雷达数据不同时，按照视觉数据寻找
+					while(1)
+					{
+					while(receive != 1);
+					uart_getData();
+					uart_getLaser();
+					if(uart_data[1]<800)
+						break;
+
+					if(!uart_getData())
+					{	
+						set_motor_vx_vy_w_R(0,0,0);
+						control1_W(robot_zqd.pwm[0]);
+						control2_W(robot_zqd.pwm[1]);
+						control3_W(robot_zqd.pwm[2]);
+					//	continue;
+					}
+					if((uart_data[0]< MID_VIEW-20) && (uart_data[1] > 700))
+					{
+						set_motor_vx_vy_w_R(-4,0,0); //原来-40 0 0
+						control1_W(robot_zqd.pwm[0]);
+						control2_W(robot_zqd.pwm[1]);
+						control3_W(robot_zqd.pwm[2]);
+					}
+					else if((uart_data[0] > MID_VIEW+20) && (uart_data[1] >700))
+					{
+						set_motor_vx_vy_w_R(4,0,0);//原来40 0 0 
+						control1_W(robot_zqd.pwm[0]);
+						control2_W(robot_zqd.pwm[1]);
+						control3_W(robot_zqd.pwm[2]);
+					}
+					else if(uart_data[1]>700)
+					{
+						set_motor_vx_vy_w_R(0,12,0);
+						control1_W(robot_zqd.pwm[0]);
+						control2_W(robot_zqd.pwm[1]);
+						control3_W(robot_zqd.pwm[2]);
+					}
+					else if(uart_data[0]< MID_VIEW-30)
+					{
+						set_motor_vx_vy_w_R(-3,0,0); //原来-30 0 0
+						control1_W(robot_zqd.pwm[0]);
+						control2_W(robot_zqd.pwm[1]);
+						control3_W(robot_zqd.pwm[2]);
+					}
+					else if(uart_data[0] > MID_VIEW+30)
+					{
+						set_motor_vx_vy_w_R(3,0,0);//原来 30 0 0 
+						control1_W(robot_zqd.pwm[0]);
+						control2_W(robot_zqd.pwm[1]);
+						control3_W(robot_zqd.pwm[2]);
+					}
+					else if(uart_data[0] <= MID_VIEW+30 && uart_data[0] > MID_VIEW+10)
+					{
+						set_motor_vx_vy_w_R(1.5,0,0); //原来 15 0 0 
+						control1_W(robot_zqd.pwm[0]);
+						control2_W(robot_zqd.pwm[1]);
+						control3_W(robot_zqd.pwm[2]);
+					}
+					else if(uart_data[0] >= MID_VIEW-30 && uart_data[0] < MID_VIEW -10)
+					{
+						set_motor_vx_vy_w_R(-1.5,0,0);//原来-15 0 0
+						control1_W(robot_zqd.pwm[0]);
+						control2_W(robot_zqd.pwm[1]);
+						control3_W(robot_zqd.pwm[2]);
+					}
+					else 
+					{
+							control1_W(0);
+							control2_W(0);
+							control3_W(0);
+							jixiebi_down();
+							set_motor_vx_vy_w_R(0,7,0);
+							control1_W(robot_zqd.pwm[0]);
+							control2_W(robot_zqd.pwm[1]);
+							control3_W(robot_zqd.pwm[2]);
+							break;
+					}
+				}
 			}
 			
-		}
-	}
-	else
-	{
-		LCD_ShowString(30+200,460,200,16,16,"View!");
-		//雷达数据不同时，按照视觉数据寻找
-		while(1)
-		{
-			while(receive != 1);
-			if(!uart_getData())
+		
+	
+	if(uart_data[1]<=800)
 			{	
-				set_motor_vx_vy_w_R(0,0,0);
-				control1_W(robot_zqd.pwm[0]);
-				control2_W(robot_zqd.pwm[1]);
-				control3_W(robot_zqd.pwm[2]);
-				continue;
-			}
-			if(uart_data[0]< MID_VIEW-20)
-			{
-				set_motor_vx_vy_w_R(-4,0,0); //原来-40 0 0
-				control1_W(robot_zqd.pwm[0]);
-				control2_W(robot_zqd.pwm[1]);
-				control3_W(robot_zqd.pwm[2]);
-			}
-			else if(uart_data[0] > MID_VIEW+20)
-			{
-				set_motor_vx_vy_w_R(4,0,0);//原来40 0 0 
-				control1_W(robot_zqd.pwm[0]);
-				control2_W(robot_zqd.pwm[1]);
-				control3_W(robot_zqd.pwm[2]);
-			}
-			else if(uart_data[1]>70)
-			{
-				set_motor_vx_vy_w_R(0,12,0);
-				control1_W(robot_zqd.pwm[0]);
-				control2_W(robot_zqd.pwm[1]);
-				control3_W(robot_zqd.pwm[2]);
-			}
-			else if(uart_data[0]< MID_VIEW-30)
-			{
-				set_motor_vx_vy_w_R(-3,0,0); //原来-30 0 0
-				control1_W(robot_zqd.pwm[0]);
-				control2_W(robot_zqd.pwm[1]);
-				control3_W(robot_zqd.pwm[2]);
-			}
-			else if(uart_data[0] > MID_VIEW+30)
-			{
-				set_motor_vx_vy_w_R(3,0,0);//原来 30 0 0 
-				control1_W(robot_zqd.pwm[0]);
-				control2_W(robot_zqd.pwm[1]);
-				control3_W(robot_zqd.pwm[2]);
-			}
-			else if(uart_data[0] <= MID_VIEW+30 && uart_data[0] > MID_VIEW+10)
-			{
-				set_motor_vx_vy_w_R(1.5,0,0); //原来 15 0 0 
-				control1_W(robot_zqd.pwm[0]);
-				control2_W(robot_zqd.pwm[1]);
-				control3_W(robot_zqd.pwm[2]);
-			}
-			else if(uart_data[0] >= MID_VIEW-30 && uart_data[0] < MID_VIEW -10)
-			{
-				set_motor_vx_vy_w_R(-1.5,0,0);//原来-15 0 0
-				control1_W(robot_zqd.pwm[0]);
-				control2_W(robot_zqd.pwm[1]);
-				control3_W(robot_zqd.pwm[2]);
-			}
-			else 
-			{
+				LCD_ShowString(30+200,500,200,16,16,"Radar!");
+					//雷达数据相同，按照雷达数据寻找
+				while(1)
+				{
+					while(receive3 != 1);
+					uart_getLaser();
+					uart_getData();
+					//if(uart_data[1]>800)
+					//	break;
+
+					if(!uart_getLaser())
+					{	
+					set_motor_vx_vy_w_R(0,0,0);
+					control1_W(robot_zqd.pwm[0]);
+					control2_W(robot_zqd.pwm[1]);
+					control3_W(robot_zqd.pwm[2]);
+					//continue;
+					}
+					if(uart3_data[1] > 3000)
+					{			
+						D_theta = robot_zqd.theta - theta;
+						if((D_theta > PI/6.0f && D_theta < PI) || (D_theta < -PI && D_theta > -PI*11.0f/6.0f))
+						{
+							w = -300;
+						}
+						if((D_theta < -PI/6.0f && D_theta > -PI) || (D_theta > PI && D_theta < PI*11.0f/6.0f))
+						{
+							w = 300;
+						}
+						set_motor_vx_vy_w(0,0,w);
+						control1_W(robot_zqd.pwm[0]);
+						control2_W(robot_zqd.pwm[1]);
+						control3_W(robot_zqd.pwm[2]);
+					}
+					
+					else if(uart3_data[0]< MID_LASER-15)
+					{
+						set_motor_vx_vy_w_R(0,0,200);
+						control1_W(robot_zqd.pwm[0]);
+						control2_W(robot_zqd.pwm[1]);
+						control3_W(robot_zqd.pwm[2]);
+					}
+					else if(uart3_data[0] > MID_LASER+15)
+					{
+						set_motor_vx_vy_w_R(0,0,-200);
+						control1_W(robot_zqd.pwm[0]);
+						control2_W(robot_zqd.pwm[1]);
+						control3_W(robot_zqd.pwm[2]);
+					}
+					else if(uart3_data[1] > 1000)
+					{
+						set_motor_vx_vy_w_R(0,30,0);
+						control1_W(robot_zqd.pwm[0]);
+						control2_W(robot_zqd.pwm[1]);
+						control3_W(robot_zqd.pwm[2]);
+					}
+					
+					else if((uart3_data[0]< MID_LASER-10) && uart3_data[1] >700)
+					{
+					set_motor_vx_vy_w_R(0,0,150);
+					//set_motor_vx_vy_w_R(-10,0,0);//原来-100 0 0
+					control1_W(robot_zqd.pwm[0]);
+					control2_W(robot_zqd.pwm[1]);
+					control3_W(robot_zqd.pwm[2]);
+					}
+					else if((uart3_data[0] > MID_LASER+10) && uart3_data[1] >700)
+					{
+					set_motor_vx_vy_w_R(0,0,-150);
+					//set_motor_vx_vy_w_R(10,0,0); //原来100 0 0
+					control1_W(robot_zqd.pwm[0]);
+					control2_W(robot_zqd.pwm[1]);
+					control3_W(robot_zqd.pwm[2]);
+					}
+					else if(uart3_data[1]>700)
+					{
+					set_motor_vx_vy_w_R(0,14,0);
+					control1_W(robot_zqd.pwm[0]);
+					control2_W(robot_zqd.pwm[1]);
+					control3_W(robot_zqd.pwm[2]);
+					}
+					else if(uart3_data[0]< MID_LASER-5)
+					{
+					set_motor_vx_vy_w_R(-10,0,0);//原来-100 0 0
+					control1_W(robot_zqd.pwm[0]);
+					control2_W(robot_zqd.pwm[1]);
+					control3_W(robot_zqd.pwm[2]);
+					}
+					else if(uart3_data[0] > MID_LASER+5)
+					{
+					set_motor_vx_vy_w_R(10,0,0);//原来100 0 0
+					control1_W(robot_zqd.pwm[0]);
+					control2_W(robot_zqd.pwm[1]);
+					control3_W(robot_zqd.pwm[2]);
+					}
+					else if(uart3_data[0] <= MID_LASER+5 && uart3_data[0] > MID_LASER+2)
+					{
+						set_motor_vx_vy_w_R(30,0,0);
+						control1_W(robot_zqd.pwm[0]);
+						control2_W(robot_zqd.pwm[1]);
+						control3_W(robot_zqd.pwm[2]);
+					}
+					else if(uart3_data[0] >= MID_LASER-5 && uart3_data[0] < MID_LASER -2)
+					{
+						set_motor_vx_vy_w_R(-30,0,0);
+						control1_W(robot_zqd.pwm[0]);
+						control2_W(robot_zqd.pwm[1]);
+						control3_W(robot_zqd.pwm[2]);
+					}
+					else 
+					{
 					control1_W(0);
 					control2_W(0);
 					control3_W(0);
@@ -2128,12 +2789,16 @@ void find_ball_sanfen(u8 ball)
 					control1_W(robot_zqd.pwm[0]);
 					control2_W(robot_zqd.pwm[1]);
 					control3_W(robot_zqd.pwm[2]);
-					break;
+					if(uart3_data[1] < 350)
+						break;
+					}	
+				
+				}
 			}
-		}
-	}
-		
-		
+
+			
+	
+			
 	get_hongwai();
 	robot_zqd.pwm[0] = 0;
 	robot_zqd.pwm[1] = 0;
@@ -2142,6 +2807,11 @@ void find_ball_sanfen(u8 ball)
 	control2_W(0);
 	control3_W(0);
 	jixiebi_up();
+	//control1_W(500);
+	//control3_W(500);
+	//delay_ms(30000);
+	
+	
 	LCD_Show_pwm();
 	LCD_ShowString(30+200,460,200,16,16,"       ");
 }
@@ -2153,9 +2823,6 @@ void find_ball_laser(void)
 {
 	float w=300;
 	float theta = robot_zqd.theta,D_theta = 0;	
-//	get_lankuang();
-//	get_lankuang();
-//	get_lankuang();
 	
 	control1_W(0);
 	control2_W(0);
@@ -2173,12 +2840,6 @@ void find_ball_laser(void)
 		//	continue;
 		}
 		LED0 = !LED0;
-
-		//USART_SendData(USART3,uart_getLaser());
-		//USART_SendData(USART3,robot_zqd.pwm[0]);
-		//USART_SendData(USART3,robot_zqd.pwm[1]);
-		//USART_SendData(USART3,robot_zqd.pwm[2]);
-		
 
 		if(uart3_data[1] < 10)
 			continue;
@@ -2289,7 +2950,7 @@ void find_ball_zhongquan(void)
 	
 	float w=300;
 	float theta = robot_zqd.theta,D_theta = 0;
-	zhongquan_state=1;
+
 	
 	//清空串口接收数据缓存
 	receive3 = 0;
@@ -2315,7 +2976,7 @@ void find_ball_zhongquan(void)
 			control2_W(robot_zqd.pwm[1]);
 			control3_W(robot_zqd.pwm[2]);
 			LED1 = !LED1;
-			continue;
+			//continue;
 		}
 		LED0 = !LED0;
 		
@@ -2470,7 +3131,7 @@ u8 find_ball_dixian(void)
 			control2_W(robot_zqd.pwm[1]);
 			control3_W(robot_zqd.pwm[2]);
 			LED1 = !LED1;
-			continue;
+			//continue;
 		}
 		LED0 = !LED0;
 		
@@ -2701,16 +3362,17 @@ void find_lankuang(void)
 		}
 	}while(1);
 	*/
-	
+	/*
 	float w=200;
 	u8 time = 1;
 	float theta = robot_zqd.theta,D_theta = 0;
+	*/
 	
-	get_dingweizhu();
-	delay_ms(10000);
-	get_dingweizhu();
-	delay_ms(10000);
-	get_dingweizhu();
+	//get_dingweizhu();
+	//delay_ms(10000);
+	//get_dingweizhu();
+	//delay_ms(10000);
+	//get_dingweizhu();
 	
 	control1_W(0);
 	control2_W(0);
@@ -2718,9 +3380,9 @@ void find_lankuang(void)
 	LCD_Show_pwm();
 	
 	//清空视觉串口数据
-	while(receive != 1);
-	USART_RX_STA=0;
-	receive=0;
+	//while(receive != 1);
+	//USART_RX_STA=0;
+	//receive=0;
 	
 	//清空串口接收数据缓存
 	receive3 = 0;
@@ -2735,11 +3397,11 @@ void find_lankuang(void)
 	while(receive3 != 1);
 	receive3 = 0;
 	USART3_RX_STA = 0;
-	
+	/*
 	do{
-		while(receive != 1);
+	//	while(receive != 1);
 		while(receive3 != 1);
-		
+	
 		if(!uart_getData())
 		{	
 			if(time == 0)
@@ -2813,6 +3475,7 @@ void find_lankuang(void)
 			break;
 		}
 	}while(1);
+		*/
 
 	
 	//精确瞄准
@@ -2835,7 +3498,7 @@ void find_lankuang(void)
 				control1_W(robot_zqd.pwm[0]);
 				control2_W(robot_zqd.pwm[1]);
 				control3_W(robot_zqd.pwm[2]);
-				continue;
+				//continue;
 			}
 			if((uart3_data[0]< MID_LASER-10))
 			{
@@ -2905,7 +3568,7 @@ void find_lankuang(void)
 	}
 			
 			
-
+	/*
 	else
 	{
 		LCD_ShowString(30+200,460,200,16,16,"View!");
@@ -2992,6 +3655,7 @@ void find_lankuang(void)
 	 }
 	
 	}
+	*/
 		
 	
 	//防止无效数据
@@ -3013,7 +3677,7 @@ void find_lankuang(void)
 			control1_W(robot_zqd.pwm[0]);
 			control2_W(robot_zqd.pwm[1]);
 			control3_W(robot_zqd.pwm[2]);
-			continue;
+		//	continue;
 		}
 		if((uart3_data[0]< MID_LASER-1))
 		{
@@ -3060,7 +3724,7 @@ void find_lankuang(void)
 	robot_zqd.pwm[2] = 0;
 	LCD_Show_pwm();
 	LCD_ShowString(30+200,460,200,16,16,"       ");
-	lankuang_state=0;
+	
 }
 
 
@@ -3147,4 +3811,89 @@ void charge(u8 state)
 		GPIO_ResetBits(GPIOG,GPIO_Pin_6);
 }
 
+//中圈直行点
+void zhongquanpoint(u8 zhongquan)
+{
+	if(zhongquan==0)
+	{
+		robot_straight_stage(0,4.2,0);
+	}
+	
+	if(zhongquan==1)
+	{
+		robot_straight_stage(1.328f,4.6721f,45);
+	}
+	
+	if(zhongquan==2)
+	{
+		robot_straight_stage(2.3,7,90);
+	}
+}
 
+// 三分目标点，中圈定点行走
+void sanfenpoint(u8 sanfen,u8 zhongquan)
+{
+	if(sanfen==0)
+		{
+			if(zhongquan==0)
+			{
+				robot_certain_point(4.0f,7,270,0,3.5f,90);
+			}
+			
+		if(zhongquan==1)
+			{	
+				robot_certain_point(4.0f,7,270,1.328f,4.6721f,270);
+			}
+		
+		if(zhongquan==2)
+			{
+				robot_certain_point(4.0f,7,270,2.5f,7,90);
+			}
+		else
+				robot_straight_stage(4.0f,7,270);
+
+		}
+	
+	if(sanfen==1)
+	{
+		if(zhongquan==0)
+			{
+				robot_certain_point(4.5,2.8,315,0,3.5f,90);
+			}
+			
+		if(zhongquan==1)
+			{
+				robot_certain_point(4.5,2.8,315,1.328f,4.6721f,270);
+			}
+		
+		if(zhongquan==2)
+			{
+				robot_certain_point(4.5,2.8,315,2.5,7,90);
+			}
+		
+		else
+			robot_straight_stage(4.5,2.8,315);
+	}
+	
+	if(sanfen==2)
+	{
+		if(zhongquan==0)
+			{
+				robot_certain_point(6.25f,1.4f,0,0,3.5f,90);
+				
+			}
+			
+		if(zhongquan==1)
+			{
+				robot_certain_point(6.25f,1.4f,0,1.328f,4.6721f,270);
+			}
+		
+		if(zhongquan==2)
+			{
+				robot_certain_point(6.25f,1.4f,0,2.5,7,90);
+			}
+		
+		else
+			robot_straight_stage(6.25f,1.4f,0);
+	}
+}

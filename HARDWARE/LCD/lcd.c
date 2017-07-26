@@ -2846,7 +2846,9 @@ void LCD_Show_Title(void)						//ÏÔÊ¾ÄÚÈÝ¿ò¼Ü
  				
 	LCD_ShowString(30+200,320,200,16,16,"chengxu");
 	LCD_ShowString(30+200,340,200,16,16,"qiu");
-	LCD_ShowString(30+200,360,200,16,16,"        ");
+	LCD_ShowString(30+200,360,200,16,16,"zhongquan");
+	LCD_ShowString(30+200,380,200,16,16,"sanfen");
+	LCD_ShowString(30+200,400,200,16,16,"        ");
 }
 
 
