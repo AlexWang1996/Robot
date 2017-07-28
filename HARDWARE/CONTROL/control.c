@@ -3843,21 +3843,21 @@ void sanfenpoint(u8 sanfen,u8 zhongquan)
 	{
 		if(zhongquan==0)
 			{
-				robot_certain_point(6.25f,1.4f,0,0,3.5f,0);
+				robot_certain_point(7.25f,1.4f,0,0,3.5f,0);
 				
 			}
 			
 		if(zhongquan==1)
 			{
-				robot_certain_point(6.25f,1.4f,0,1.328f,4.6721f,0);
+				robot_certain_point(7.25f,1.4f,0,1.328f,4.6721f,0);
 			}
 		
 		if(zhongquan==2)
 			{
-				robot_certain_point(6.25f,1.4f,0,2.5,7,0);
+				robot_certain_point(7.25f,1.4f,0,2.5,7,0);
 			}
 		
 		else
-			robot_straight_stage(6.25f,1.4f,0);
+			robot_straight_stage(7.25f,1.4f,0);
 	}
 }
