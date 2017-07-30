@@ -29,45 +29,45 @@ void EXTIX_Init(void)
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_SYSCFG, ENABLE);//使能SYSCFG时钟
 	
  
-//	SYSCFG_EXTILineConfig(EXTI_PortSourceGPIOC, EXTI_PinSource0);//PC0 连接到中断线0
-//	SYSCFG_EXTILineConfig(EXTI_PortSourceGPIOC, EXTI_PinSource1);//PC1 连接到中断线1
+	SYSCFG_EXTILineConfig(EXTI_PortSourceGPIOC, EXTI_PinSource0);//PC0 连接到中断线0
+	SYSCFG_EXTILineConfig(EXTI_PortSourceGPIOC, EXTI_PinSource1);//PC1 连接到中断线1
 	SYSCFG_EXTILineConfig(EXTI_PortSourceGPIOF, EXTI_PinSource9);//PF9 连接到中断线9
 	
 
     /* 配置EXTI_Line0 */
-//	  EXTI_InitStructure.EXTI_Line = EXTI_Line0;//LINE0
-//	  EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;//中断事件
-//	  EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising; //上升沿触发 
-//	  EXTI_InitStructure.EXTI_LineCmd = ENABLE;//使能LINE0
-//	  EXTI_Init(&EXTI_InitStructure);//配置
+	  EXTI_InitStructure.EXTI_Line = EXTI_Line0;//LINE0
+	  EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;//中断事件
+	  EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising; //上升沿触发 
+	  EXTI_InitStructure.EXTI_LineCmd = DISABLE;//使能LINE0
+	  EXTI_Init(&EXTI_InitStructure);//配置
 	
 	  /* 配置EXTI_Line1 */
-//	  EXTI_InitStructure.EXTI_Line = EXTI_Line1;//LINE0
-//	  EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;//中断事件
-//	  EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising; //上升沿触发 
-//	  EXTI_InitStructure.EXTI_LineCmd = ENABLE;//使能LINE0
-//	  EXTI_Init(&EXTI_InitStructure);//配置
+	  EXTI_InitStructure.EXTI_Line = EXTI_Line1;//LINE1
+	  EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;//中断事件
+	  EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising; //上升沿触发 
+	  EXTI_InitStructure.EXTI_LineCmd = DISABLE;//使能LINE1
+	  EXTI_Init(&EXTI_InitStructure);//配置
 		
 		/* 配置EXTI_Line9 */
-	  EXTI_InitStructure.EXTI_Line = EXTI_Line9;//LINE0
+	  EXTI_InitStructure.EXTI_Line = EXTI_Line9;//LINE9
 	  EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;//中断事件
 	  EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling; //下降沿触发 
 	  EXTI_InitStructure.EXTI_LineCmd = ENABLE;//使能LINE9
 	  EXTI_Init(&EXTI_InitStructure);//配置
  
-//		NVIC_InitStructure.NVIC_IRQChannel = EXTI0_IRQn;//外部中断0
-//		NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x00;//抢占优先级0
-//		NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x01;//子优先级2
-//		NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;//使能外部中断通道
-//		NVIC_Init(&NVIC_InitStructure);//配置
+		NVIC_InitStructure.NVIC_IRQChannel = EXTI0_IRQn;//外部中断0
+		NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x00;//抢占优先级0
+		NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x01;//子优先级2
+		NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;//使能外部中断通道
+		NVIC_Init(&NVIC_InitStructure);//配置
 		
-//		NVIC_InitStructure.NVIC_IRQChannel = EXTI1_IRQn;//外部中断2
-//		NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x00;//抢占优先级3
-//		NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x00;//子优先级2
-//		NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;//使能外部中断通道
-//		NVIC_Init(&NVIC_InitStructure);//配置
+		NVIC_InitStructure.NVIC_IRQChannel = EXTI1_IRQn;//外部中断1
+		NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x00;//抢占优先级3
+		NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x00;//子优先级2
+		NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;//使能外部中断通道
+		NVIC_Init(&NVIC_InitStructure);//配置
 		
-		NVIC_InitStructure.NVIC_IRQChannel = EXTI9_5_IRQn;//外部中断2
+		NVIC_InitStructure.NVIC_IRQChannel = EXTI9_5_IRQn;//外部中断9
 		NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x00;//抢占优先级3
 		NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x00;//子优先级2
 		NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;//使能外部中断通道
@@ -77,95 +77,89 @@ void EXTIX_Init(void)
 
 void EXTIX_Disable(u8 extix)
 {
-	NVIC_InitTypeDef NVIC_InitStructure;
-	
+	EXTI_InitTypeDef   EXTI_InitStructure;
 
-	/*
 	if(extix == 0)
 	{
-		NVIC_InitStructure.NVIC_IRQChannel = EXTI0_IRQn;			//使能所在的外部中断通道
-		NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x00;	//抢占优先级0， 
-		NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x01;					//子优先级0
-		NVIC_InitStructure.NVIC_IRQChannelCmd = DISABLE;								//使能外部中断通
+		EXTI_InitStructure.EXTI_Line = EXTI_Line0;//LINE0
+	  EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;//中断事件
+	  EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising; //上升沿触发 
+	  EXTI_InitStructure.EXTI_LineCmd = DISABLE;//使能LINE0
 	}
 	else if(extix == 1)
 	{
-		NVIC_InitStructure.NVIC_IRQChannel = EXTI1_IRQn;			//使能所在的外部中断通道
-		NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x00;	//抢占优先级2， 
-		NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x00;					//子优先级2
-		NVIC_InitStructure.NVIC_IRQChannelCmd = DISABLE;								//使能外部中断通道
-
+		EXTI_InitStructure.EXTI_Line = EXTI_Line1;//LINE1
+	  EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;//中断事件
+	  EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising; //上升沿触发 
+	  EXTI_InitStructure.EXTI_LineCmd = DISABLE;//使能LINE1
 	}
-	*/
-	if(extix==9)
+	else if(extix==9)
 	{
-		NVIC_InitStructure.NVIC_IRQChannel = EXTI9_5_IRQn;			//使能所在的外部中断通道
-		NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x00;	//抢占优先级2， 
-		NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x00;					//子优先级2
-		NVIC_InitStructure.NVIC_IRQChannelCmd = DISABLE;								//使能外部中断通道		
+		EXTI_InitStructure.EXTI_Line = EXTI_Line9;//LINE9
+	  EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;//中断事件
+	  EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling; //下降沿触发 
+	  EXTI_InitStructure.EXTI_LineCmd = DISABLE;//使能LINE9
 	}
 	else return;
-	NVIC_Init(&NVIC_InitStructure);
+	EXTI_Init(&EXTI_InitStructure);//配置
 }
 
 void EXTIX_Enable(u8 extix)
 {
- 	NVIC_InitTypeDef NVIC_InitStructure;
-	
-/*
-	
+ 	EXTI_InitTypeDef   EXTI_InitStructure;
+
 	if(extix == 0)
 	{
-		NVIC_InitStructure.NVIC_IRQChannel = EXTI0_IRQn;			//使能所在的外部中断通道
-		NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x00;	//抢占优先级0， 
-		NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x00;					//子优先级0
-		NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;								//使能外部中断通
+		EXTI_InitStructure.EXTI_Line = EXTI_Line0;//LINE0
+	  EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;//中断事件
+	  EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising; //上升沿触发 
+	  EXTI_InitStructure.EXTI_LineCmd = ENABLE;//使能LINE0
 	}
 	else if(extix == 1)
 	{
-		NVIC_InitStructure.NVIC_IRQChannel = EXTI1_IRQn;			//使能所在的外部中断通道
-		NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x00;	//抢占优先级2， 
-		NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x00;					//子优先级2
-		NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;								//使能外部中断通道
+		EXTI_InitStructure.EXTI_Line = EXTI_Line1;//LINE1
+	  EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;//中断事件
+	  EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising; //上升沿触发 
+	  EXTI_InitStructure.EXTI_LineCmd = ENABLE;//使能LINE1
 	}
-	*/
-	if(extix==9)
+	else if(extix==9)
 	{
-		NVIC_InitStructure.NVIC_IRQChannel = EXTI9_5_IRQn;			//使能所在的外部中断通道
-		NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x00;	//抢占优先级2， 
-		NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x00;					//子优先级2
-		NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;								//使能外部中断通道	
-	}		
-	
+		EXTI_InitStructure.EXTI_Line = EXTI_Line9;//LINE9
+	  EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;//中断事件
+	  EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling; //下降沿触发 
+	  EXTI_InitStructure.EXTI_LineCmd = ENABLE;//使能LINE9
+	}
 	else return;
-	NVIC_Init(&NVIC_InitStructure);
+	EXTI_Init(&EXTI_InitStructure);//配置
 }
 
 
 
 //外部中断0服务程序 
-//void EXTI0_IRQHandler(void)
-//{
-//	if(xianwei_up()==1)	 	 //Up
-//	{				 
-//		TIM_SetCompare1(TIM9,MOTOR_STATIC_1);
-//		TIM_SetCompare2(TIM9,MOTOR_STATIC_2);	
-//		EXTIX_Disable(0);
-//	}
-//	
-//}
+void EXTI0_IRQHandler(void)
+{
+	if(xianwei_up()==1)	 	 //Up
+	{				 
+		TIM_SetCompare1(TIM9,MOTOR_STATIC_1);
+		TIM_SetCompare2(TIM9,MOTOR_STATIC_2);	
+		EXTIX_Disable(0);
+	}
+	EXTI_ClearITPendingBit(EXTI_Line0);			//清除中断标志位
+	
+}
  
 //外部中断1服务程序
-//void EXTI1_IRQHandler(void)
-//{
-//	if(xianwei_down()==1)	  //Down
-//	{
-//		TIM_SetCompare1(TIM9,MOTOR_STATIC_1);
-//		TIM_SetCompare2(TIM9,MOTOR_STATIC_2);	
-//		EXTIX_Disable(1);
-//	}		 
-//	
-//}
+void EXTI1_IRQHandler(void)
+{
+	if(xianwei_down()==1)	  //Down
+	{
+		TIM_SetCompare1(TIM9,MOTOR_STATIC_1);
+		TIM_SetCompare2(TIM9,MOTOR_STATIC_2);	
+		EXTIX_Disable(1);
+	}		 
+	EXTI_ClearITPendingBit(EXTI_Line1);			//清除中断标志位
+	
+}
 
 void EXTI9_5_IRQHandler(void)
 {

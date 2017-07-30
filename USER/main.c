@@ -10,6 +10,7 @@
 //#include "key.h"
 #include "beep.h"
 #include "remote.h"
+#include "exti.h"
 
 
 
@@ -49,6 +50,8 @@ int main(void)
 	TIM2_Int_Init(100-1,8400-1);//定时读取解码器，时间0.01f
 	//TIM7_Int_Init(20000,8400*5-1); // 压哨投球 待完善 120s定时 
 	
+	EXTIX_Init();
+	EXTIX_Enable(1);
 
 	while(1)
 	{
@@ -437,7 +440,7 @@ int main(void)
 					break;
 				delay_ms(30000);
 				charge(1);
-				robot_straight_stage(robot_zqd.X,robot_zqd.Y+1.6,0);
+				robot_straight_stage(robot_zqd.X,robot_zqd.Y+1.6f,0);
 				//sanfenpoint(sanfen_case,100);
 				//robot_straight_stage(8.925f,3.0f,0); //进入三分线内定点 
 				//robot_straight_stage(-11,3,180);									//左场
@@ -456,7 +459,7 @@ int main(void)
 				delay_ms(30000);
 				//robot_turnOrigin_stage(330);											//左场
 				//robot_turnOrigin_stage(30);												//右场
-				robot_straight_stage(robot_zqd.X,robot_zqd.Y-0.5,30);
+				robot_straight_stage(robot_zqd.X,robot_zqd.Y-0.5f,30);
 				delay_ms(30000);
 				if(down_shot_up())
 					break;
@@ -550,7 +553,7 @@ int main(void)
 					qiu = 3;
 				find_ball_sanfen(qiu);
 				delay_ms(30000);
-				robot_straight_stage(robot_zqd.X,robot_zqd.Y+0.5,0);
+				robot_straight_stage(robot_zqd.X,robot_zqd.Y+0.5f,0);
 				//robot_straight_stage(8.925f,3.0f,0);  //进入三分线内点
 				//robot_straight_stage(7.5,4.9,180);
 				//sanfenpoint(sanfen_case,100);
@@ -588,7 +591,7 @@ int main(void)
 				delay_ms(30000);
 				find_ball_sanfen(qiu);					//视觉找球
 				delay_ms(30000);
-				robot_straight_stage(robot_zqd.X,robot_zqd.Y+0.5,0);
+				robot_straight_stage(robot_zqd.X,robot_zqd.Y+0.5f,0);
 				//robot_straight_stage(8.925f,3.0f,0);   //进入三分线内
 				//robot_straight_stage(-8,7,90);										//左场
 				robot_straight_stage(8,7,270);											//右场

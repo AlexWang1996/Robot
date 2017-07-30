@@ -4,6 +4,7 @@
 #include "beep.h"
 #include "timer.h"
 #include "usart.h"
+#include "exti.h"
 
 struct robot robot_zqd;
 u32 uart_data[3]={0,2000,1000};			//串口接收数据存储，x位置，深度，半径
@@ -25,6 +26,7 @@ void control_init(void)
 	robot_zqd.v[0] = 0;		//第三个轮的速度
 	robot_zqd.theta_dev = 0;
 	robot_zqd.theta_offset = 0;
+	
 	
 	control1_W(0);
 	control2_W(0);
@@ -500,7 +502,7 @@ void jixiebi_down(void)
 		TIM_SetCompare1(TIM9,MOTOR_STATIC_1);
 		return;
 	}
-	//EXTIX_Enable(1);
+	EXTIX_Enable(1);
 	#ifdef ZQD_DEBUG
 	BEEP = 1;
 	#endif
@@ -547,7 +549,7 @@ void jixiebi_up(void)
 		TIM_SetCompare1(TIM9,MOTOR_STATIC_1);
 		return ;
 	}
-	//EXTIX_Enable(0);
+	EXTIX_Enable(0);
 	#ifdef ZQD_DEBUG
 	BEEP = 1;
 	#endif
@@ -668,14 +670,16 @@ void robot_certain_point(float X_I,float Y_I,float Theta_I,float pointX, float p
 	D_Y = Y_I - robot_zqd.Y;
 	
 		
-		while(fabs(point_Y) > 0.05f || fabs(point_X) > 0.05f)
+	//过第一个点，允许误差比较大
+		while(fabs(point_Y) > 0.1f || fabs(point_X) > 0.1f)
 		{
-			//如果目标距离y大于x
+			//如果目标距离y大于x，保持y速度不减速，x根据情况减速
 		 if(fabs(point_Y)>fabs(point_X))
 		 {
 			 //y轴方向速度不减速为0
 			if(point_Y > 0.05f)
 			{
+				//y方向前进，不减速
 				if(point_Y < 0.2f){		
 					if(point_sy<=0.25f)
 					point_sy = 0.25f;
@@ -692,10 +696,7 @@ void robot_certain_point(float X_I,float Y_I,float Theta_I,float pointX, float p
 					if(point_sy<=6)
 					point_sy = 6;
 				}
-				
-				
-
-				
+				//y方向前进，加速过程
 				if(point_Y >= 1.5f)				
 				{
 					point_sy = 8;
@@ -717,6 +718,7 @@ void robot_certain_point(float X_I,float Y_I,float Theta_I,float pointX, float p
 			}
 			else if(point_Y < -0.05f)
 			{
+				//y方向后退，不减速
 				if(point_Y > -0.2f){	
 					if(point_sy>=-0.25f)
 						point_sy = -0.25f;
@@ -733,7 +735,7 @@ void robot_certain_point(float X_I,float Y_I,float Theta_I,float pointX, float p
 					if(point_sy>=-6)				
 						point_sy = -6;
 				}
-				
+				//y方向后退，加速过程
 				if(point_Y < -1.5f)
 				{
 					point_sy = -8;
@@ -750,17 +752,14 @@ void robot_certain_point(float X_I,float Y_I,float Theta_I,float pointX, float p
 						point_sy = -6;
 					}
 				}
-
-				
-				
-				
-
 			}else 
-				point_sy = 0;
+				point_sy = 0;			//异常情况
 		
 			
+			//距离目标点y大于x时，x方向正常
 			if(point_X > 0.05f)
 			{
+				//x方向正向运动，加速过程
 				if(point_X > 1.5f)
 				{
 					point_sx = 8;
@@ -775,6 +774,7 @@ void robot_certain_point(float X_I,float Y_I,float Theta_I,float pointX, float p
 					else if(robot_zqd.Vx < 7.5f)
 						point_sx = 6;
 				}
+				//x方向正向运动，减速过程
 				else if(point_X < 1.5f)
 				{
 					if(point_X > 0.2f)
@@ -793,8 +793,10 @@ void robot_certain_point(float X_I,float Y_I,float Theta_I,float pointX, float p
 						point_sx = 0.25f;
 				}
 			}
+			//x方向负向运动
 			else if(point_X < -0.05f)
 			{
+				//x方向加速运动
 				if(point_X < -1.5f)
 				{
 					point_sx = -8;
@@ -809,6 +811,7 @@ void robot_certain_point(float X_I,float Y_I,float Theta_I,float pointX, float p
 					else if(robot_zqd.Vx > -7.5f)
 						point_sx = -6;
 				}
+				//x方向减速运动
 				else if(point_X > -1.5f)
 				{
 					if(point_X < -0.2f)
@@ -828,14 +831,16 @@ void robot_certain_point(float X_I,float Y_I,float Theta_I,float pointX, float p
 				}
 			}
 			else 
-				point_sx = 0;
+				point_sx = 0;			//异常情况
 		}
 		 
 		//如果目标距离x大于y
 		if(fabs(point_X)>fabs(point_Y))
 		{
+			//y方向正向运动，正常加速减速
 			if(point_Y > 0.05f)
 			{
+				//y方向加速运动
 				if(point_Y >= 1.5f)
 				{
 					point_sy = 8;
@@ -850,6 +855,7 @@ void robot_certain_point(float X_I,float Y_I,float Theta_I,float pointX, float p
 				{
 					point_sy = 8;
 				}
+				//y方向减速运动
 				if(point_Y < 1.5f){    
 					point_sy = 6;
 				}
@@ -862,8 +868,10 @@ void robot_certain_point(float X_I,float Y_I,float Theta_I,float pointX, float p
 				if(point_Y < 0.2f)		point_sy = 0.25;
 				
 			}
+			//y方向负向运动
 			else if(point_Y < -0.05f)
 			{
+				//y方向负向加速运动
 				if(point_Y < -1.5f)
 				{
 					point_sy = -8;
@@ -878,6 +886,7 @@ void robot_certain_point(float X_I,float Y_I,float Theta_I,float pointX, float p
 				{
 					point_sy = -8;
 				}
+				//y方向负向减速运动
 				if(point_Y > -1.5f){    
 					point_sy = -6;
 				}
@@ -892,9 +901,10 @@ void robot_certain_point(float X_I,float Y_I,float Theta_I,float pointX, float p
 			else 
 				point_sy = 0;
 			
-			//x方向速度不减速为0
+			//x方向不做减速
 			if(point_X > 0.05f)
 			{
+				//x方向正向不做减速
 				if(point_X < 0.1f)
 				{
 					if(point_sx <= 0.25f)
@@ -915,6 +925,7 @@ void robot_certain_point(float X_I,float Y_I,float Theta_I,float pointX, float p
 					if(point_sx <= 2)
 						point_sx = 2;
 				}
+				//x方向正向加速过程
 				if(point_X >= 1.5f)
 				{
 					point_sx = 8;
@@ -930,8 +941,10 @@ void robot_certain_point(float X_I,float Y_I,float Theta_I,float pointX, float p
 						point_sx = 6;
 				}
 			}
+			//x方向负向运动
 			else if(point_X < -0.05f)
 			{
+				//x方向负向不做减速
 				if(point_X > -0.1f)
 				{
 					if(point_sx >= -0.25f)
@@ -952,6 +965,7 @@ void robot_certain_point(float X_I,float Y_I,float Theta_I,float pointX, float p
 					if(point_sx >= -2)
 						point_sx = -2;
 				}
+				//x方向负向加速运动
 				if(point_X < -1.5f)
 				{
 					point_sx = -8;
@@ -968,10 +982,10 @@ void robot_certain_point(float X_I,float Y_I,float Theta_I,float pointX, float p
 				}
 			}
 			else 
-				point_sx = 0;
+				point_sx = 0;				//异常情况
 		}
 		
-		
+		//角度正常旋转
 		if(point_Theta>0&&(point_Theta<PI))  
 		{
 			point_Vw=point_Theta*500;

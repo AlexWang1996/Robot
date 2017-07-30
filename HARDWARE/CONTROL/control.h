@@ -40,8 +40,12 @@ struct robot{
 	float theta_offset;	//½Ç¶ÈÆ«²î½ÃÕý
 };
 
+
+
 extern struct robot robot_zqd;
 extern u32 uart_data[3];
+
+
 
 void control_init(void);
 void control3_W(float W);
