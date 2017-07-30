@@ -3875,3 +3875,5 @@ void sanfenpoint(u8 sanfen,u8 zhongquan)
 			robot_straight_stage(7.25f,1.4f,0);
 	}
 }
+
+

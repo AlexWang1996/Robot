@@ -51,7 +51,6 @@ int main(void)
 	//TIM7_Int_Init(20000,8400*5-1); // 压哨投球 待完善 120s定时 
 	
 	EXTIX_Init();
-	EXTIX_Enable(1);
 
 	while(1)
 	{

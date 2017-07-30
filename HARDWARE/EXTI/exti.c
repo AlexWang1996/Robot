@@ -31,7 +31,7 @@ void EXTIX_Init(void)
  
 	SYSCFG_EXTILineConfig(EXTI_PortSourceGPIOC, EXTI_PinSource0);//PC0 连接到中断线0
 	SYSCFG_EXTILineConfig(EXTI_PortSourceGPIOC, EXTI_PinSource1);//PC1 连接到中断线1
-	SYSCFG_EXTILineConfig(EXTI_PortSourceGPIOF, EXTI_PinSource9);//PF9 连接到中断线9
+	//SYSCFG_EXTILineConfig(EXTI_PortSourceGPIOF, EXTI_PinSource9);//PF9 连接到中断线9
 	
 
     /* 配置EXTI_Line0 */
@@ -49,11 +49,13 @@ void EXTIX_Init(void)
 	  EXTI_Init(&EXTI_InitStructure);//配置
 		
 		/* 配置EXTI_Line9 */
+		/*
 	  EXTI_InitStructure.EXTI_Line = EXTI_Line9;//LINE9
 	  EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;//中断事件
 	  EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling; //下降沿触发 
 	  EXTI_InitStructure.EXTI_LineCmd = ENABLE;//使能LINE9
 	  EXTI_Init(&EXTI_InitStructure);//配置
+		*/
  
 		NVIC_InitStructure.NVIC_IRQChannel = EXTI0_IRQn;//外部中断0
 		NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x00;//抢占优先级0
@@ -67,11 +69,13 @@ void EXTIX_Init(void)
 		NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;//使能外部中断通道
 		NVIC_Init(&NVIC_InitStructure);//配置
 		
+		/*
 		NVIC_InitStructure.NVIC_IRQChannel = EXTI9_5_IRQn;//外部中断9
 		NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x00;//抢占优先级3
 		NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x00;//子优先级2
 		NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;//使能外部中断通道
 		NVIC_Init(&NVIC_InitStructure);//配置
+		*/
 }
 
 
@@ -161,6 +165,7 @@ void EXTI1_IRQHandler(void)
 	
 }
 
+/*
 void EXTI9_5_IRQHandler(void)
 {
 	
@@ -169,3 +174,4 @@ void EXTI9_5_IRQHandler(void)
 	EXTIX_Disable(9);
 	
 }
+*/
