@@ -18,8 +18,8 @@
 #define MOTOR_L 0.2013f		//轮到机器人中心的距离
 #define MOTOR_R 0.0508f		//轮子的半径
 
-#define MOTOR_STATIC_1 3990		//TIM9 CH1 PE5
-#define MOTOR_STATIC_2 3990  	//TIM9 CH2 PE6
+#define MOTOR_STATIC_1 4000		//TIM9 CH1 PE5
+#define MOTOR_STATIC_2 4000  	//TIM9 CH2 PE6
 
 #define MID_LASER 273		//激光定位中心
 #define MID_VIEW 320		//视觉定位中心
@@ -40,12 +40,9 @@ struct robot{
 	float theta_offset;	//角度偏差矫正
 };
 
-
-
 extern struct robot robot_zqd;
 extern u32 uart_data[3];
-
-
+extern u8 zhongquan_case;
 
 void control_init(void);
 void control3_W(float W);
@@ -107,6 +104,6 @@ u8 uart_getLaser(void);
 u8 uart_getData(void);
 void zhongquanpoint(u8 zhongquan);
 void sanfenpoint(u8 sanfen,u8 zhongquan);
-
-
+void panduan_weizhi(void);
+void panduan_weizhifan(void);
 #endif
