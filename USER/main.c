@@ -304,7 +304,17 @@ int main(void)
 						break;
 					case 7:
 						//直线行走
-						robot_straight_stage(1,1,0);
+						//robot_straight_stage(1,1,0);
+						//set_motor_vx_vy_w_R(10,0,0);
+						set_motor_vx_vy_w(0,100,0);
+						control1_W(robot_zqd.pwm[0]);
+						control2_W(robot_zqd.pwm[1]);
+						control3_W(robot_zqd.pwm[2]);
+						delay_ms(40000);
+						//control1_W(0);
+						//control2_W(0);
+						//control3_W(0);
+						
 						break;
 					case 8:
 						//找篮筐测试
@@ -360,7 +370,7 @@ int main(void)
 				// --------------- --------------
 				//             口     
 				charge(1);
-				robot_straight_stage(0,2.7f,0);
+				robot_straight_stage(0,3,0);
 				panduan_weizhi();
 				delay_ms(30000);
 				//find_ball_laser();
@@ -480,7 +490,7 @@ int main(void)
 				delay_ms(30000);
 				//robot_straight_stage(-8,7,90);									//左场
 				zhongquanpoint(zhongquan_case);
-				robot_straight_stage(8,7,270);										//右场
+				robot_certain_point(8,7,270,4,3.5f,270);										//右场
 				delay_ms(30000);
 				find_lankuang(); 
 				delay_ms(30000);
@@ -531,7 +541,7 @@ int main(void)
 				//robot_straight_stage(robot_zqd.X,1,0);
 				//sanfenpoint(sanfen_case,100);
 				//robot_straight_stage(4.5,2.2,315);									//右场
-				robot_straight_ObsAvoidance(4.5,2.8,315);
+				robot_straight_ObsAvoidance(4.5f,2.8f,315);
 				delay_ms(30000);
 				//if(qiu == 3||qiu==7)						//更改视觉算法，添加另外情况，同传球回合二
 				//		qiu = 4;

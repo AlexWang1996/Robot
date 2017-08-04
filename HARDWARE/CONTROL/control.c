@@ -2652,13 +2652,15 @@ void find_ball_sanfen(u8 ball)
 					if(uart_data[0]< MID_VIEW-20 )
 					{
 						set_motor_vx_vy_w_R(-4,0,0); //原来-40 0 0
+						//set_motor_vx_vy_w_R(-4,0,-80);
 						control1_W(robot_zqd.pwm[0]);
 						control2_W(robot_zqd.pwm[1]);
 						control3_W(robot_zqd.pwm[2]);
 					}
 					else if(uart_data[0] > MID_VIEW+20)
 					{
-						set_motor_vx_vy_w_R(4,0,0);//原来40 0 0 
+						set_motor_vx_vy_w_R(4,0,0);//原来40 0 0
+						//set_motor_vx_vy_w_R(4,0,80);
 						control1_W(robot_zqd.pwm[0]);
 						control2_W(robot_zqd.pwm[1]);
 						control3_W(robot_zqd.pwm[2]);
@@ -2673,13 +2675,15 @@ void find_ball_sanfen(u8 ball)
 					else if(uart_data[0]< MID_VIEW-30)
 					{
 						set_motor_vx_vy_w_R(-3,0,0); //原来-30 0 0
+						//set_motor_vx_vy_w_R(-3,0,-60);
 						control1_W(robot_zqd.pwm[0]);
 						control2_W(robot_zqd.pwm[1]);
 						control3_W(robot_zqd.pwm[2]);
 					}
 					else if(uart_data[0] > MID_VIEW+30)
 					{
-						set_motor_vx_vy_w_R(3,0,0);//原来 30 0 0 
+						set_motor_vx_vy_w_R(3,0,0);//原来 30 0 0
+						//set_motor_vx_vy_w_R(3,0,60);
 						control1_W(robot_zqd.pwm[0]);
 						control2_W(robot_zqd.pwm[1]);
 						control3_W(robot_zqd.pwm[2]);
@@ -2687,6 +2691,7 @@ void find_ball_sanfen(u8 ball)
 					else if(uart_data[0] <= MID_VIEW+30 && uart_data[0] > MID_VIEW+10)
 					{
 						set_motor_vx_vy_w_R(1.5,0,0); //原来 15 0 0 
+						//set_motor_vx_vy_w_R(1.5,0,40);
 						control1_W(robot_zqd.pwm[0]);
 						control2_W(robot_zqd.pwm[1]);
 						control3_W(robot_zqd.pwm[2]);
@@ -2694,6 +2699,7 @@ void find_ball_sanfen(u8 ball)
 					else if(uart_data[0] >= MID_VIEW-30 && uart_data[0] < MID_VIEW -10)
 					{
 						set_motor_vx_vy_w_R(-1.5,0,0);//原来-15 0 0
+						//set_motor_vx_vy_w_R(-1.5,0,-40);
 						control1_W(robot_zqd.pwm[0]);
 						control2_W(robot_zqd.pwm[1]);
 						control3_W(robot_zqd.pwm[2]);
@@ -2740,6 +2746,7 @@ void find_ball_sanfen(u8 ball)
 					{
 				//	set_motor_vx_vy_w_R(0,0,150);
 					set_motor_vx_vy_w_R(-10,0,0);//原来-100 0 0
+						//set_motor_vx_vy_w_R(-10,0,-80);
 					control1_W(robot_zqd.pwm[0]);
 					control2_W(robot_zqd.pwm[1]);
 					control3_W(robot_zqd.pwm[2]);
@@ -2748,6 +2755,7 @@ void find_ball_sanfen(u8 ball)
 					{
 					//set_motor_vx_vy_w_R(0,0,-150);
 					set_motor_vx_vy_w_R(10,0,0); //原来100 0 0
+						//set_motor_vx_vy_w_R(10,0,80);
 					control1_W(robot_zqd.pwm[0]);
 					control2_W(robot_zqd.pwm[1]);
 					control3_W(robot_zqd.pwm[2]);
@@ -2762,6 +2770,7 @@ void find_ball_sanfen(u8 ball)
 					else if(uart3_data[0]< MID_LASER-5)
 					{
 					set_motor_vx_vy_w_R(-10,0,0);//原来-100 0 0
+						//set_motor_vx_vy_w_R(-10,0,-80);
 					control1_W(robot_zqd.pwm[0]);
 					control2_W(robot_zqd.pwm[1]);
 					control3_W(robot_zqd.pwm[2]);
@@ -2769,6 +2778,7 @@ void find_ball_sanfen(u8 ball)
 					else if(uart3_data[0] > MID_LASER+5)
 					{
 					set_motor_vx_vy_w_R(10,0,0);//原来100 0 0
+						//set_motor_vx_vy_w_R(10,0,80);
 					control1_W(robot_zqd.pwm[0]);
 					control2_W(robot_zqd.pwm[1]);
 					control3_W(robot_zqd.pwm[2]);
@@ -3157,19 +3167,12 @@ void panduan_weizhi(void)
 		}
 		else 
 		{
-			//uart_getLaser();
-			while(receive3 != 1);
-			receive3 = 0;
-			USART3_RX_STA = 0;
-			uart3_data[1]= 0;
-			robot_straight_stage(1.5f,4,45);
+			robot_straight_stage(robot_zqd.X+1.6f,robot_zqd.Y+1.5f,45);
+			//robot_straight_stage(2.2f,4.5f,60);			
 				if(uart3_data[1] > 1500)
 			{			
 				zhongquan_case=1;
-				set_motor_vx_vy_w(0,400,0);
-				control1_W(robot_zqd.pwm[0]);
-				control2_W(robot_zqd.pwm[1]);
-				control3_W(robot_zqd.pwm[2]);
+				robot_straight_stage(robot_zqd.X-1,robot_zqd.Y+1,45);
 				delay_ms(30000);
 				break;
 			}
@@ -3177,7 +3180,7 @@ void panduan_weizhi(void)
 			{
 				zhongquan_case=2;
 				robot_straight_stage(2.3f,7,90);
-				robot_straight_stage(1.8f,7,90);
+				robot_straight_stage(1.2f,7,90);
 				break;
 			}
 		}
@@ -3236,19 +3239,12 @@ void panduan_weizhifan(void)
 		}
 		else 
 		{
-			//uart_getLaser();
-			while(receive3 != 1);
-			receive3 = 0;
-			USART3_RX_STA = 0;
-			uart3_data[1]= 0;
-			robot_straight_stage(1.5f,4,45);
+			robot_straight_stage(robot_zqd.X-0.5f,robot_zqd.Y-1.6f,45);
+			//robot_straight_stage(2.2f,4.5f,45);
 				if(uart3_data[1] > 1500)
 			{			
 				zhongquan_case=1;
-				set_motor_vx_vy_w(0,400,0);
-				control1_W(robot_zqd.pwm[0]);
-				control2_W(robot_zqd.pwm[1]);
-				control3_W(robot_zqd.pwm[2]);
+				robot_straight_stage(robot_zqd.X-1,robot_zqd.Y+0.5f,45);
 				delay_ms(30000);
 				break;
 			}
@@ -3256,6 +3252,7 @@ void panduan_weizhifan(void)
 			{
 				zhongquan_case=0;
 				robot_straight_stage(0,2.7f,0);
+				robot_straight_stage(0,4.2f,0);
 				break;
 			}
 		}
@@ -3988,7 +3985,7 @@ void zhongquanpoint(u8 zhongquan)
 	
 	if(zhongquan==1)
 	{
-		robot_straight_stage(1.328f,4.6721f,45);//right side
+		robot_straight_stage(2.2f,4.6721f,45);//right side
 		//robot_straight_stage(-1.328f,4.6721f,315);//left side
 	}
 	
@@ -4014,8 +4011,8 @@ void sanfenpoint(u8 sanfen,u8 zhongquan)
 			
 		if(zhongquan==1)
 			{	
-				robot_certain_point(4.0f,7,270,1.328f,4.6721f,270);//right side
-				//robot_certain_point(-4.0f,7,90,-1.328f,4.6721f,90);//left side
+				robot_certain_point(4.0f,7,270,2.2f,4.6721f,270);//right side
+				//robot_certain_point(-4.0f,7,90,-2.2f,4.6721f,90);//left side
 			}
 		
 		if(zhongquan==2)
@@ -4039,13 +4036,14 @@ void sanfenpoint(u8 sanfen,u8 zhongquan)
 			
 		if(zhongquan==1)
 			{
-				robot_certain_point(4.5f,2.2f,315,1.328f,4.6721f,315);//right side
-				//robot_certain_point(-4.5f,2.2f,45,-1.328f,4.6721f,45);//left side
+				//robot_straight_stage(robot_zqd.X+1,robot_zqd.Y-1,225);				
+				robot_certain_point(4.5f,2.2f,315,robot_zqd.X+1,robot_zqd.Y-1,225);//right side
+				//robot_straight_stage(-4.5f,2.2f,45,-2.7f,2.2f,0);//left side
 			}
 		
 		if(zhongquan==2)
-			{
-				robot_certain_point(4.5f,2,315,2.5f,7,315);//right side
+			{	robot_straight_stage(2.5f,7,45);
+				robot_certain_point(4.5f,2,315,2.7f,3.5f,315);//right side
 				//robot_certain_point(-4.5f,2,45,-2.5f,7,45);//left side
 			}
 		
@@ -4064,8 +4062,8 @@ void sanfenpoint(u8 sanfen,u8 zhongquan)
 			
 		if(zhongquan==1)
 			{
-				robot_certain_point(7.25f,1.4f,0,1.328f,4.6721f,0);//right side
-				//robot_certain_point(-7.25f,1.4f,0,-1.328f,4.6721f,0);//left side
+				robot_certain_point(7.25f,1.4f,0,2.2f,4.6721f,0);//right side
+				//robot_certain_point(-7.25f,1.4f,0,-2.2f,4.6721f,0);//left side
 			}
 		
 		if(zhongquan==2)
