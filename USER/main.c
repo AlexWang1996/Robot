@@ -305,12 +305,13 @@ int main(void)
 					case 7:
 						//直线行走
 						//robot_straight_stage(1,1,0);
-						//set_motor_vx_vy_w_R(10,0,0);
-						set_motor_vx_vy_w(0,100,0);
+						set_motor_vx_vy_w_R(0,0,100);//逆时针
+						
+						//set_motor_vx_vy_w(0,100,0);
 						control1_W(robot_zqd.pwm[0]);
 						control2_W(robot_zqd.pwm[1]);
 						control3_W(robot_zqd.pwm[2]);
-						delay_ms(40000);
+						//delay_ms(40000);
 						//control1_W(0);
 						//control2_W(0);
 						//control3_W(0);
@@ -334,32 +335,51 @@ int main(void)
 				//|-              |            - |
 				// --------------- --------------
 				//             口     
-				charge(1); 
+				charge(1);
+				robot_straight_stage(0,4.2f,0);
 				//robot_straight_stage(0,5.3f,70);										//左场
-				robot_straight_stage(0,5.4f,290);									//右场
-				//panduan_weizhi();				
-				delay_ms(30000);
+				//robot_straight_stage(0,5.4f,290);									//右场
+				//robot_straight_ObsAvoidance(0,6.4f,0);
+				//robot_turnOrigin_stage(290);
+				panduan_weizhi();
+				if(zhongquan_case==0)
+					robot_straight_stage(0,5.4f,0);
+				if(zhongquan_case==2)
+					robot_straight_stage(robot_zqd.X-0.4f,robot_zqd.Y,90);
+				robot_turnOrigin_stage(290);
+				//delay_ms(30000);
 				if(down_shot_up())
 					break;
-				delay_ms(30000);
+				//delay_ms(30000);
 				charge(1);
-				robot_turnOrigin_stage(0);
-				delay_ms(30000);
-				find_ball_zhongquan();			//雷达找球
+				if(zhongquan_case==0)
+				{
+					robot_straight_stage(0,4.2f,0);
+				}
+				else if(zhongquan_case==1)
+				{	
+					robot_straight_stage(robot_zqd.X+1.32f,robot_zqd.Y-0.5f,45);
+				}
+				else if(zhongquan_case==2)
+				{
+					robot_straight_stage(robot_zqd.X-0.4f,robot_zqd.Y,135);
+				}
+				find_ball_sanfen(qiu);
+				//find_ball_zhongquan();			//雷达找球
 				//find_ball(qiu);						//视觉找球
-				delay_ms(30000);
+				//delay_ms(30000);
 				if(robot_zqd.X>0)
 					//robot_turnOrigin_stage(90);										//左场
 					robot_turnOrigin_stage(270);									//右场
 				else
 					//robot_turnOrigin_stage(70);										//左场
 					robot_turnOrigin_stage(290);									//右场
-				delay_ms(30000);
+				//delay_ms(30000);
 				if(down_shot_up())
 					break;
-				delay_ms(30000);
+				//delay_ms(30000);
 				//robot_straight_stage(0,0,0);		 			//左场
-				robot_straight_stage(0,0,0);									//右场
+				robot_straight_stage(0.3f,0,0);									//右场
 				break;
 			case 2:
 				//传球第二回合
@@ -372,38 +392,36 @@ int main(void)
 				charge(1);
 				robot_straight_stage(0,3,0);
 				panduan_weizhi();
-				delay_ms(30000);
+				//delay_ms(30000);
 				//find_ball_laser();
-				find_ball_sanfen(qiu); // 1是红色篮球 2是蓝色篮球
+				find_ball_sanfen(qiu); // 1是篮球 3是排球
 				//find_ball(qiu);					//视觉找球
 				//find_ball_zhongquan();				//激光找球
-			  delay_ms(30000);
+			  //delay_ms(30000);
 				//robot_turnOrigin_stage(80);											//左场
 				robot_turnOrigin_stage(280);										//右场
-				delay_ms(30000);
+				//delay_ms(30000);
 				if(down_shot_up())
 					break;
-				delay_ms(30000);
+				//delay_ms(30000);
 				charge(1);
+				if(zhongquan_case==1)
+					robot_turnOrigin_stage(225);
 				//robot_straight_stage(-4.5f,2.2f,45);							//左场
 				//robot_straight_stage(4.5f,2.2f,315);              //右场
 				sanfenpoint(1,zhongquan_case);
-				delay_ms(30000);
+				//delay_ms(30000);
 				 //蓝色篮球
 				//find_ball_zhongquan();				//雷达找球
-				//	if(qiu == 1||qiu==5)						//视觉找球
-				//		qiu = 2;
-				//	else if(qiu==6||qiu==2)
-				//		qiu = 1;
-				//find_ball(qiu);
+				//find_ball(qiu);      //视觉找球
 				find_ball_sanfen(qiu);
 				//find_ball_zhongquan();
-				delay_ms(30000);
+				//delay_ms(30000);
 				robot_straight_stage(robot_zqd.X,robot_zqd.Y-1,0);//退后一米 
-				delay_ms(30000);
+				//delay_ms(30000);
 				if(down_shot_up())
 					break;
-				delay_ms(30000);
+				//delay_ms(30000);
 				robot_zqd.theta_offset = -0.05f;
 				robot_straight_stage(0,robot_zqd.Y,0);
 				robot_straight_stage(-0.1f,-0.10f,0);//原来 0 0 0 
@@ -424,40 +442,37 @@ int main(void)
 				delay_ms(40000);
 				//robot_straight_stage(-3.9,2,45);								//左场
 				robot_straight_stage(3.9,2,315);									//右场
-				delay_ms(30000);
+				//delay_ms(30000);
 				find_ball_sanfen(qiu);
 				//find_ball_zhongquan();			//雷达找球
 				//find_ball(qiu);				//视觉找球
-				delay_ms(30000);
+				//delay_ms(30000);
 				//sanfenpoint(sanfen_case,100);
 				robot_straight_stage(robot_zqd.X,robot_zqd.Y-1,0);
 				delay_ms(30000);
 				if(down_shot_up())
 					break;
-				delay_ms(30000);
+				//delay_ms(30000);
 				charge(1);
-				robot_straight_stage(robot_zqd.X,robot_zqd.Y+1.6f,0);
+				robot_straight_stage(robot_zqd.X,robot_zqd.Y+1.3f,0);
 				//robot_straight_stage(-8.5,robot_zqd.Y-2,180);									//左场
-				robot_straight_stage(8.5,robot_zqd.Y-2,180);										//右场  
-				delay_ms(30000);
-				find_ball_dixian();			//雷达找球
-				//if(qiu == 1)					//视觉找球
-					//qiu = 2;
-				//else
-					//qiu = 1;
-				//find_ball(qiu);
+				robot_straight_stage(8.5,robot_zqd.Y,180);										//右场  待修改
+				robot_straight_stage(robot_zqd.X,2,180);		
+				//delay_ms(30000);
+				find_ball_dixian();			//雷达找球							
+				//find_ball(qiu);				//视觉找球
 				//find_ball_sanfen(qiu);
-				delay_ms(30000);
+				//delay_ms(30000);
 				//robot_turnOrigin_stage(330);											//左场
 				//robot_turnOrigin_stage(30);												//右场
 				robot_straight_stage(robot_zqd.X,robot_zqd.Y-0.5f,30);
-				delay_ms(30000);
+				//delay_ms(30000);
 				if(down_shot_up())
 					break;
-				delay_ms(30000);
+				//delay_ms(30000);
 				robot_zqd.theta_offset = -0.05f;
 				robot_straight_stage(0,robot_zqd.Y,0);
-				delay_ms(30000);
+				//delay_ms(30000);
 				robot_straight_stage(0,0,0);
 				break;
 			case 4:
@@ -471,32 +486,33 @@ int main(void)
 				charge(1);
 				//robot_straight_stage(-8,7.5,90);										//左场
 				robot_straight_stage(8,7,270);										//右场							
-				delay_ms(30000);
+				//delay_ms(30000);
 				find_lankuang();
-				delay_ms(30000);
+				//delay_ms(30000);
 				if(down_shot_up())
 					break;
-				delay_ms(30000);
+				//delay_ms(30000);
 				charge(1);
-				robot_straight_stage(3.0f,7,90);
-				panduan_weizhifan();
-				//zhongquanpoint(1); //待修改
-				//robot_straight_stage(0,5.2,0);
-				//robot_straight_ObsAvoidance(0,5.2,0);
-				delay_ms(30000);
+				robot_straight_stage(0,4.2,0);
+				panduan_weizhi();
+				if(zhongquan_case==2)
+					robot_turnOrigin_stage(135);
+//			robot_straight_stage(2.5f,7,90);
+//			panduan_weizhifan();
+				//delay_ms(30000);
 				find_ball_sanfen(qiu);
 				//find_ball_zhongquan();			//雷达找球
 				//find_ball(qiu);							//视觉找球
-				delay_ms(30000);
+				//delay_ms(30000);
 				//robot_straight_stage(-8,7,90);									//左场
-				zhongquanpoint(zhongquan_case);
-				robot_certain_point(8,7,270,4,3.5f,270);										//右场
-				delay_ms(30000);
+				zhongquanpoint(zhongquan_case);		
+				robot_straight_stage(8,7,270);									//右场
+				//delay_ms(30000);
 				find_lankuang(); 
-				delay_ms(30000);
+				//delay_ms(30000);
 				if(down_shot_up())
 					break;
-				delay_ms(30000);
+				//delay_ms(30000);
 				//while(1);
 				robot_straight_stage(0,2,0);
 				//robot_straight_stage(0.1,0,0);										//左场
@@ -516,48 +532,48 @@ int main(void)
 			//control2_W(robot_zqd.pwm[1]);
 			//control3_W(robot_zqd.pwm[2]);
 			//delay_ms(40000);
-			//robot_straight_stage(0,5.0f,0);
-			//robot_straight_ObsAvoidance(0,5.0f,0);
-				robot_straight_stage(0,2.7f,0);
+				robot_straight_stage(0,3.5f,0);
+				//robot_straight_ObsAvoidance(0,4.5f,0);
 				panduan_weizhi();
-				delay_ms(30000);
+				//delay_ms(30000);
 				find_ball_sanfen(qiu);
 				//find_ball(qiu);					//视觉找球
 				//find_ball_zhongquan();				//激光找球
-				delay_ms(30000);
+				//delay_ms(30000);
+				//robot_turnOrigin_stage(315);
+				if(zhongquan_case==1)
+					robot_turnOrigin_stage(225);
 				zhongquanpoint(zhongquan_case);
-				delay_ms(30000);
-				//robot_straight_stage(-8,7,90);											//左场				
+				//delay_ms(30000);
+				robot_turnOrigin_stage(270);
+				//robot_straight_stage(-8,7,90);											//左场	
 				//robot_straight_stage(8,7,270);										//右场
 				robot_straight_ObsAvoidance(8,7,270);
-				delay_ms(30000);
+				//delay_ms(30000);
 				find_lankuang();
-				delay_ms(30000);
+				//delay_ms(30000);
 				if(down_shot_up())
 					break;
 				charge(1);
-				delay_ms(30000);
+				//delay_ms(30000);
 				//robot_straight_stage(-4.5,2.8,45);										//左场
 				//robot_straight_stage(robot_zqd.X,1,0);
-				//sanfenpoint(sanfen_case,100);
 				//robot_straight_stage(4.5,2.2,315);									//右场
-				robot_straight_ObsAvoidance(4.5f,2.8f,315);
-				delay_ms(30000);
-				//if(qiu == 3||qiu==7)						//更改视觉算法，添加另外情况，同传球回合二
-				//		qiu = 4;
-				//else if(qiu==4||qiu==8)
-				//		qiu = 3;
+				robot_turnOrigin_stage(135);
+				robot_straight_ObsAvoidance(4.5f,2.8f,135);//右场
+				robot_turnOrigin_stage(315);				
+				//delay_ms(30000);
 				find_ball_sanfen(qiu);
-				delay_ms(30000);
-				robot_straight_stage(robot_zqd.X,robot_zqd.Y+0.5f,0);
+				//delay_ms(30000);
+				robot_straight_stage(robot_zqd.X,robot_zqd.Y+0.5f,315);
 				//robot_straight_stage(-7,6.5,90);											//左场
-				robot_straight_stage(7,6.5,315);										//右场				
-				delay_ms(30000);
+				robot_straight_stage(8,7,270);										//右场				
+				//delay_ms(30000);
 				find_lankuang();
-				delay_ms(30000);
+				//delay_ms(30000);
 				if(down_shot_up())
 					break;
-				delay_ms(30000);
+				//delay_ms(30000);
 				//while(1);
 				robot_straight_stage(robot_zqd.X,2,0);
 				robot_straight_stage(0,2,0);
@@ -576,45 +592,42 @@ int main(void)
 				control1_W(robot_zqd.pwm[0]);
 				control2_W(robot_zqd.pwm[1]);
 				control3_W(robot_zqd.pwm[2]);
-				delay_ms(20000);
+				//delay_ms(20000);
 				//robot_straight_ObsVoidance(-4.0f,2.2f,45);									//左场
 				//robot_straight_ObsAvoidance(4.0f,2.2f,315);										//右场
-				robot_straight_stage(4.0f,2.2f,315);
-				//sanfenpoint(sanfen_case,100);
-				delay_ms(30000);
+				robot_straight_stage(4,2.2f,315);
+				//delay_ms(30000);
 				find_ball_sanfen(qiu);					//视觉找球
-				delay_ms(30000);
+				//delay_ms(30000);
+				//robot_certain_point(8,7,270,robot_zqd.X,robot_zqd.Y+0.5f,0);
 				robot_straight_stage(robot_zqd.X,robot_zqd.Y+0.5f,0);
 				//robot_straight_stage(8.925f,3.0f,0);   //进入三分线内
 				//robot_straight_stage(-8,7,90);										//左场
 				robot_straight_stage(8,7,270);											//右场
-				delay_ms(30000);
+				//delay_ms(30000);
 				find_lankuang();
-				delay_ms(30000);
+				//delay_ms(30000);
 				if(down_shot_up())
 					break;
-				delay_ms(30000);
+				//delay_ms(30000);
 				charge(1);
 				//robot_straight_stage(-11,3,180);									//左场
 				robot_straight_stage(9.5f,3,180);										//右场
-				delay_ms(30000);
+				//delay_ms(30000);
 				find_ball_dixian();			//雷达找球
-				//if(qiu == 3)					//视觉找球
-					//qiu = 4;
-				//else
-					//qiu = 3;
 				//find_ball_sanfen(qiu);
 				//find_ball(qiu);
-				delay_ms(30000);
+				//delay_ms(30000);
 				//robot_straight_stage(robot_zqd.X,robot_zqd.Y+2,0);
 				//robot_straight_stage(-8,7,90);											//左场
 				robot_straight_stage(8,7,270);												//右场
-				delay_ms(30000);
+				//delay_ms(30000);
 				find_lankuang();
-				delay_ms(30000);
+				//delay_ms(30000);
 				if(down_shot_up())
 					break;
-				delay_ms(30000);
+				//delay_ms(30000);
+				//while(1);
 				robot_straight_stage(0,3,0);
 				delay_ms(30000);
 				robot_straight_stage(0,-0.2,0);
@@ -624,12 +637,10 @@ int main(void)
 				find_ball_sanfen(1);
 				break;
 			case 8:
-				//charge(1);
-				//while(!Remote_Scan());
-				//down_shot_up();
-				robot_turnOrigin_stage(90);
-				robot_straight_ObsAvoidance(-7,0,90);
-				break;
+					robot_straight_stage(2.6f,7,90);
+					panduan_weizhifan();
+					find_ball_sanfen(qiu);
+			
 			case 9:
 				//第三回合测试程序
 				charge(1);

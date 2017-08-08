@@ -103,6 +103,7 @@ u8 xianwei_up(void);
 u8 uart_getLaser(void);
 u8 uart_getData(void);
 void zhongquanpoint(u8 zhongquan);
+void zhongquanpointfan(u8 zhongquan);
 void sanfenpoint(u8 sanfen,u8 zhongquan);
 void panduan_weizhi(void);
 void panduan_weizhifan(void);
