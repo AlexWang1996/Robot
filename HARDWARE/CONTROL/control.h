@@ -21,7 +21,7 @@
 #define MOTOR_STATIC_1 4000		//TIM9 CH1 PE5
 #define MOTOR_STATIC_2 4000  	//TIM9 CH2 PE6
 
-#define MID_LASER 273		//激光定位中心
+#define MID_LASER 271		//激光定位中心
 #define MID_VIEW 320		//视觉定位中心
 #define DIS_LASER 2500			//篮筐雷达定位距离
 #define DIS_VIEW 280	//篮筐视觉定位距离
@@ -43,7 +43,7 @@ struct robot{
 extern struct robot robot_zqd;
 extern u32 uart_data[3];
 extern u8 zhongquan_case;
-
+extern u8 changdi;
 void control_init(void);
 void control3_W(float W);
 void control2_W(float W);
@@ -107,4 +107,6 @@ void zhongquanpointfan(u8 zhongquan);
 void sanfenpoint(u8 sanfen,u8 zhongquan);
 void panduan_weizhi(void);
 void panduan_weizhifan(void);
+void panduan_weizhi2(void);
+void panduan_weizhifan2(void);
 #endif
