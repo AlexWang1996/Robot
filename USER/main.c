@@ -14,21 +14,21 @@
 
 u8 zhongquan_case;
 u8 changdi;
-
+u8 chengxu;
 
 
 
 int main(void)
 {
 	u8 key = 0;					//按键值
-	u8 chengxu = 0;				//程序选择
+	//u8 chengxu = 0;				//程序选择
 	u8 flag=0;
 	u8 qiu = 0;				//找球
-//	u8 changdi = 0;      //左场右场
 	int16_t time = 0;			//延时
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);	//设置系统中断优先级分组2   2位抢占优先 2位响应优先
 	zhongquan_case=10;
-	changdi=0;	
+	changdi=0;					//左场右场
+	chengxu=0;
 	delay_init(168);  			//初始化延时函数
 	uart_init(9600);	 		//串口初始化为9600
 	initall_PWM();				//初始化PWM发生器
@@ -49,7 +49,6 @@ int main(void)
 	TIM_SetCompare2(TIM5,7);
 	control_init();				//机器人初始化
 	TIM2_Int_Init(100-1,8400-1);//定时读取解码器，时间0.01f
-	//TIM7_Int_Init(20000,8400*5-1); // 压哨投球 待完善 120s定时
 	EXTIX_Init();	
 	
 
@@ -215,12 +214,10 @@ int main(void)
 		
 		
 		
-		//延时10s
-		//循环100次，delay_ms(40000)
-		for(time = 0 ;time <20;time++)
-			delay_ms(4000);
+
 		//每次程序开始前初始化位置信息
 		control_init();						//机器人初始化
+		//TIM7_Int_Init(10000,8400*5-1); // 压哨投球 待完善 120s定时
 		
 		
 		switch(chengxu)
@@ -294,7 +291,6 @@ int main(void)
 						break;
 					case 5:
 						//视觉测试
-					//find_ball_sanfen(1);
 						find_ball(qiu);
 						break;
 					case 6:
@@ -303,23 +299,6 @@ int main(void)
 						break;
 					case 7:
 						//直线行走
-						//robot_straight_stage(0,2,0);
-						/*set_motor_vx_vy_w_R(0,400,0);//逆时针
-						//set_motor_vx_vy_w(0,100,0);
-						control1_W(robot_zqd.pwm[0]);
-						control2_W(robot_zqd.pwm[1]);
-						control3_W(robot_zqd.pwm[2]);
-						delay_ms(40000);
-						set_motor_vx_vy_w_R(400,0,0);//逆时针
-						control1_W(robot_zqd.pwm[0]);
-						control2_W(robot_zqd.pwm[1]);
-						control3_W(robot_zqd.pwm[2]);
-						delay_ms(40000);*/
-						//delay_ms(40000);
-						//control1_W(0);
-						//control2_W(0);
-						//control3_W(0);
-						//robot_certain_point(2.5f,3.5f,0,1.0f,2.5f,0);
 						robot_straight_stage(1.0f,2.5f,0);
 						robot_straight_stage(2.5f,3.5f,0);
 						break;
@@ -328,7 +307,8 @@ int main(void)
 						find_lankuang();
 						break;
 					case 9:
-						remote_control();
+						TIM7_Int_Init(10000,8400*5-1); // 压哨投球 待完善 120s定时
+						//remote_control();
 						break;
 				}		
 				
@@ -341,6 +321,16 @@ int main(void)
 				//|-              |            - |
 				// --------------- --------------
 				//             口     
+				//延时10s
+				//循环100次，delay_ms(40000
+				
+				for(time = 0 ;time <18;time++)
+					{
+					control1_W(0);
+					control2_W(0);
+					control3_W(0);
+					delay_ms(30000);
+					}
 				charge(1);
 				if(changdi==1)
 					robot_straight_stage(0,5.3f,300);					//右场
@@ -380,6 +370,13 @@ int main(void)
 				//|-              |            - |
 				// --------------- --------------
 				//             口     
+				for(time = 0 ;time <18;time++)
+				{
+					control1_W(0);
+					control2_W(0);
+					control3_W(0);
+					delay_ms(30000);
+				}
 				charge(1);
 				robot_straight_stage(0,3,0);
 				panduan_weizhi();
@@ -400,8 +397,6 @@ int main(void)
 					else if(changdi==2)
 						robot_turnOrigin_stage(135);      //左场 
 				}
-				//robot_straight_stage(-4.5f,2.2f,45);							//左场
-				//robot_straight_stage(4.5f,2.2f,315);              //右场
 				sanfenpoint(1,zhongquan_case);
 				find_ball_sanfen(qiu);
 				robot_straight_stage(robot_zqd.X,robot_zqd.Y-1,0);//退后一米 
@@ -410,7 +405,7 @@ int main(void)
 				robot_zqd.theta_offset = -0.05f;
 				robot_straight_stage(0,robot_zqd.Y,0);
 				delay_ms(10000);
-				robot_straight_stage(0,0,0);//原来 0 0 0 
+				robot_straight_stage(0,0,0);
 				break;
 			case 3:
 				//传球第三回合 
@@ -420,6 +415,13 @@ int main(void)
 				//|-              |            - |
 				// --------------- --------------
 				//                  口     
+				for(time = 0 ;time <18;time++)
+				{
+					control1_W(0);
+					control2_W(0);
+					control3_W(0);
+					delay_ms(30000);
+				}
 				charge(1);
 				set_motor_vx_vy_w(0,400,0);
 				control1_W(robot_zqd.pwm[0]);
@@ -441,7 +443,7 @@ int main(void)
 					robot_straight_stage(8.5,robot_zqd.Y,180);										//右场 
 				else if(changdi==2)
 					robot_straight_stage(-8.5,robot_zqd.Y,180);									//左场 				
-				robot_straight_stage(robot_zqd.X,2,180);                   
+				robot_straight_stage(robot_zqd.X,2.5f,180);                   
 				find_ball_dixian();			//雷达找球							
 				if(changdi==1)
 				robot_straight_stage(robot_zqd.X,robot_zqd.Y-0.5f,30); //右场
@@ -462,6 +464,14 @@ int main(void)
 				//|-              |            - |
 				// --------------- --------------
 				//             口     
+				for(time = 0 ;time <18;time++)
+				{
+					control1_W(0);
+					control2_W(0);
+					control3_W(0);
+					delay_ms(30000);
+				}
+				TIM7_Int_Init(10000,8400*5-1); // 压哨投球 待完善 120s定时
 				charge(1);
 				if(changdi==1)				
 					robot_straight_stage(7,7,270);										//右场
@@ -507,6 +517,14 @@ int main(void)
 				//|-              |            - |
 				// --------------- --------------
 				//             口     
+				for(time = 0 ;time <18;time++)
+				{
+					control1_W(0);
+					control2_W(0);
+					control3_W(0);
+					delay_ms(30000);
+				}
+				TIM7_Int_Init(10000,8400*5-1); // 压哨投球 待完善 120s定时
 				charge(1);
 				robot_straight_stage(0,3.5f,0);
 				panduan_weizhi();
@@ -538,22 +556,24 @@ int main(void)
 				if(changdi==1)
 				{
 					robot_turnOrigin_stage(135);										//右场
-					robot_straight_ObsAvoidance(4.5f,2.8f,135);			//右场
+					robot_straight_ObsAvoidance(4.2f,2.8f,135);			//右场
 					robot_turnOrigin_stage(315);										//右场
 				}
 				else if(changdi==2)
 				{
 					robot_turnOrigin_stage(225);										//左场
-					robot_straight_ObsAvoidance(-4.5,2.8,225);			//左场	
+					robot_straight_ObsAvoidance(-4.2f,2.8,225);			//左场	
 					robot_turnOrigin_stage(45);                			//左场
 				}
 				find_ball_sanfen(qiu);
-				robot_straight_stage(robot_zqd.X,robot_zqd.Y+0.5f,315);				
+				if(changdi==1)
+					robot_straight_stage(robot_zqd.X,robot_zqd.Y+0.5f,315);
+				else if(changdi==2)
+					robot_straight_stage(robot_zqd.X,robot_zqd.Y+0.5f,45);
 				if(changdi==1)
 					robot_straight_stage(7,7,270);										//右场			
 				else if(changdi==2)
 					robot_straight_stage(-7,7,90);											//左场
-				
 				find_lankuang();
 				if(down_shot_up())
 					break;
@@ -570,6 +590,14 @@ int main(void)
 				//|-              |            - |
 				// --------------- --------------
 				//                  口     
+				for(time = 0 ;time <18;time++)
+				{
+					control1_W(0);
+					control2_W(0);
+					control3_W(0);
+					delay_ms(30000);
+				}
+				TIM7_Int_Init(10000,8400*5-1); // 压哨投球 待完善 120s定时
 				charge(1);
 				set_motor_vx_vy_w(0,400,0);
 				control1_W(robot_zqd.pwm[0]);

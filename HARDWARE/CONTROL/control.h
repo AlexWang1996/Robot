@@ -44,6 +44,8 @@ extern struct robot robot_zqd;
 extern u32 uart_data[3];
 extern u8 zhongquan_case;
 extern u8 changdi;
+extern u8 lankuang_state;
+extern u8 chengxu;
 void control_init(void);
 void control3_W(float W);
 void control2_W(float W);
@@ -78,14 +80,8 @@ void robot_certain_point(float X_I,float Y_I,float Theta_I,float pointX, float p
 //W×ÔÐý½ÇËÙ¶È Theta Ä¿±ê×ËÌ¬½Ç dis×ËÌ¬½ÇÆ«²î
 void robot_turnOrigin(float W,float Theta,float dis);
 void robot_turnOrigin_stage(float theta);
-void get_red_basketball(void);
-void get_red_volleyball(void);
-void get_blue_basketball(void);
-void get_blue_volleyball(void);
-void get_dingweizhu(void);
-void get_weizhi_dis(void);
-void get_border(void);
-void get_along_border(void);
+void getBasketball(void);
+void getVolleyball(void);
 
 void find_ball(u8 ball);
 void find_ball_laser(void);

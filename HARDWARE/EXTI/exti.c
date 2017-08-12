@@ -133,6 +133,7 @@ void EXTIX_Enable(u8 extix)
 	  EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling; //下降沿触发 
 	  EXTI_InitStructure.EXTI_LineCmd = ENABLE;//使能LINE9
 	}
+	
 	else return;
 	EXTI_Init(&EXTI_InitStructure);//配置
 }

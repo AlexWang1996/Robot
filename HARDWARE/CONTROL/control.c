@@ -8,6 +8,7 @@
 struct robot robot_zqd;
 u32 uart_data[3]={0,2000,1000};			//串口接收数据存储，x位置，深度，半径
 u32 uart3_data[3]={0,2000,1000};		//串口接收数据存储，x位置，深度，半径
+u8 lankuang_state=0;
 
 void control_init(void)
 {
@@ -490,7 +491,7 @@ void jixiebi_down(void)
 	//原来板子：3000
 	//V1.0：1750
 	u16 i,t;
-	u16 W=3300;
+	u16 W=2700;
 	u16 nms=2000;
 
 	
@@ -582,14 +583,14 @@ int down_shot_up(void)
 {
 	
 	jixiebi_down();
-	delay_ms(30000);
+	//delay_ms(30000);
 	charge(0);
 	delay_ms(30000);
 	if(shot())
 		return 1;
 	delay_ms(45000);
 	jixiebi_up();
-	delay_ms(30000);
+	//delay_ms(30000);
 	return 0;
 }
 
@@ -2214,67 +2215,15 @@ void robot_turnOrigin_stage(float theta)
 	while(robot_zqd.W);
 }
 
-void get_red_basketball()
+void getBasketball()
 {
 	USART_SendData(USART1, '1'); 
 }
 
-void get_red_volleyball()
-{
-	USART_SendData(USART1, '4'); 
-}
 
-void get_blue_basketball()
-{
-	USART_SendData(USART1, '2'); 
-}
-
-void get_blue_volleyball()
+void getVolleyball()
 {
 	USART_SendData(USART1, '3'); 
-}
-void get_red_basketball2()
-{
-	USART_SendData(USART1, '5'); 
-}
-
-void get_red_volleyball2()
-{
-	USART_SendData(USART1, '8'); 
-}
-
-void get_blue_basketball2()
-{
-	USART_SendData(USART1, '6'); 
-}
-
-void get_blue_volleyball2()
-{
-	USART_SendData(USART1, '7'); 
-}
-void get_dingweizhu()
-{
-	USART_SendData(USART1, '5'); 
-}
-
-void get_lankuang()
-{
-	USART_SendData(USART1, '9'); 
-}
-	
-	
-void get_weizhi_dis()
-{
-	USART_SendData(USART1, '6'); 
-}
-
-void get_border()
-{
-	USART_SendData(USART1, '7'); 
-}
-void get_along_border()
-{
-	USART_SendData(USART1, '8'); 
 }
 
 u8 uart_getData(void)
@@ -2451,46 +2400,18 @@ void find_ball(u8 ball)
 	switch(ball)
 	{
 		case 1:
-			get_red_basketball();
+			getBasketball();
 			delay_ms(10000);
-			get_red_basketball();
+			getBasketball();
 			delay_ms(10000);
-			get_red_basketball();
-			break;
-		case 2:
-			get_blue_basketball();
-			delay_ms(10000);
-			get_blue_basketball();
-			delay_ms(10000);
-			get_blue_basketball();
+			getBasketball();
 			break;
 		case 3:
-			get_blue_volleyball();
+			getVolleyball();
 			delay_ms(10000);
-			get_blue_volleyball();
+			getVolleyball();
 			delay_ms(10000);
-			get_blue_volleyball();
-			break;
-		case 4:
-			get_red_volleyball();
-			delay_ms(10000);
-			get_red_volleyball();
-			delay_ms(10000);
-			get_red_volleyball();
-			break;
-		case 6:
-			get_weizhi_dis();
-			delay_ms(10000);
-			get_weizhi_dis();
-			delay_ms(10000);
-			get_weizhi_dis();
-			break;
-		case 9:
-			get_lankuang();
-			delay_ms(10000);
-			get_lankuang();
-			delay_ms(10000);
-			get_lankuang();
+			getVolleyball();
 			break;
 	}
 	control1_W(0);
@@ -2652,75 +2573,21 @@ void find_ball_sanfen(u8 ball)
 	switch(ball)
 	{
 		case 1:
-			get_red_basketball();
+			getBasketball();
 			delay_ms(10000);
-			get_red_basketball();
+			getBasketball();
 			delay_ms(10000);
-			get_red_basketball();
-			break;
-		case 2:
-			get_blue_basketball();
-			delay_ms(10000);
-			get_blue_basketball();
-			delay_ms(10000);
-			get_blue_basketball();
+			getBasketball();
 			break;
 		case 3:
-			get_blue_volleyball();
+			getVolleyball();
 			delay_ms(10000);
-			get_blue_volleyball();
+			getVolleyball();
 			delay_ms(10000);
-			get_blue_volleyball();
+			getVolleyball();
 			break;
-		case 4:
-			get_red_volleyball();
-			delay_ms(10000);
-			get_red_volleyball();
-			delay_ms(10000);
-			get_red_volleyball();
-			break;
-		/*case 6:
-			get_weizhi_dis();
-			delay_ms(10000);
-			get_weizhi_dis();
-			delay_ms(10000);
-			get_weizhi_dis();
-			break;
-		case 9:
-			get_lankuang();
-			delay_ms(10000);
-			get_lankuang();
-			delay_ms(10000);
-			get_lankuang();
-			break;*/
-		case 5:
-			get_red_basketball2();
-			delay_ms(10000);
-			get_red_basketball2();
-			delay_ms(10000);
-			get_red_basketball2();
-			break;
-		case 6:
-			get_blue_basketball2();
-			delay_ms(10000);
-			get_blue_basketball2();
-			delay_ms(10000);
-			get_blue_basketball2();
-			break;
-		case 7:
-			get_blue_volleyball2();
-			delay_ms(10000);
-			get_blue_volleyball2();
-			delay_ms(10000);
-			get_blue_volleyball2();
-			break;
-		case 8:
-			get_red_volleyball2();
-			delay_ms(10000);
-			get_red_volleyball2();
-			delay_ms(10000);
-			get_red_volleyball2();
-			break;
+
+
 	}
 	control1_W(0);
 	control2_W(0);
@@ -2799,7 +2666,7 @@ void find_ball_sanfen(u8 ball)
 		else if((uart_data[0]< MID_VIEW-30) && uart_data[1]>1000)
 		//else if(uart_data[0]< MID_VIEW-30)
 		{
-			set_motor_vx_vy_w_R(-5,10,0); //原来-50 10 0
+			set_motor_vx_vy_w_R(-10,20,0); //原来-5 10 0
 			control1_W(robot_zqd.pwm[0]);
 			control2_W(robot_zqd.pwm[1]);
 			control3_W(robot_zqd.pwm[2]);
@@ -2807,14 +2674,14 @@ void find_ball_sanfen(u8 ball)
 		else if((uart_data[0] > MID_VIEW+30) && uart_data[1] > 1000)
 		//else if(uart_data[0]> MID_VIEW+30)
 		{
-			set_motor_vx_vy_w_R(5,10,0);//原来 50 10 0
+			set_motor_vx_vy_w_R(10,20,0);//原来 5 10 0
 			control1_W(robot_zqd.pwm[0]);
 			control2_W(robot_zqd.pwm[1]);
 			control3_W(robot_zqd.pwm[2]);
 		}
 		else if(uart_data[1] > 1000)
 		{
-			set_motor_vx_vy_w_R(0,20,0);
+			set_motor_vx_vy_w_R(0,40,0);
 			control1_W(robot_zqd.pwm[0]);
 			control2_W(robot_zqd.pwm[1]);
 			control3_W(robot_zqd.pwm[2]);
@@ -2848,16 +2715,14 @@ void find_ball_sanfen(u8 ball)
 					}
 					if(uart_data[0]< MID_VIEW-20 )
 					{
-						set_motor_vx_vy_w_R(-4,0,0); //原来-40 0 0
-						//set_motor_vx_vy_w_R(0,0,150);
+						set_motor_vx_vy_w_R(-6,0,0); //原来-4 0 0
 						control1_W(robot_zqd.pwm[0]);
 						control2_W(robot_zqd.pwm[1]);
 						control3_W(robot_zqd.pwm[2]);
 					}
 					else if(uart_data[0] > MID_VIEW+20)
 					{
-						set_motor_vx_vy_w_R(4,0,0);//原来40 0 0
-						//set_motor_vx_vy_w_R(0,0,-150);
+						set_motor_vx_vy_w_R(6,0,0);//原来4 0 0
 						control1_W(robot_zqd.pwm[0]);
 						control2_W(robot_zqd.pwm[1]);
 						control3_W(robot_zqd.pwm[2]);
@@ -2865,7 +2730,7 @@ void find_ball_sanfen(u8 ball)
 					
 					else if(uart_data[1]>700)
 					{
-						set_motor_vx_vy_w_R(0,12,0);
+						set_motor_vx_vy_w_R(0,20,0);
 						control1_W(robot_zqd.pwm[0]);
 						control2_W(robot_zqd.pwm[1]);
 						control3_W(robot_zqd.pwm[2]);
@@ -2873,32 +2738,28 @@ void find_ball_sanfen(u8 ball)
 					
 					else if(uart_data[0]< MID_VIEW-30)
 					{
-						set_motor_vx_vy_w_R(-3,0,0); //原来-30 0 0
-						//set_motor_vx_vy_w_R(0,0,200);
+						set_motor_vx_vy_w_R(-6,0,0); //原来-3 0 0
 						control1_W(robot_zqd.pwm[0]);
 						control2_W(robot_zqd.pwm[1]);
 						control3_W(robot_zqd.pwm[2]);
 					}
 					else if(uart_data[0] > MID_VIEW+30)
 					{
-						set_motor_vx_vy_w_R(3,0,0);//原来 30 0 0
-						//set_motor_vx_vy_w_R(0,0,-200);
+						set_motor_vx_vy_w_R(6,0,0);//原来 3 0 0
 						control1_W(robot_zqd.pwm[0]);
 						control2_W(robot_zqd.pwm[1]);
 						control3_W(robot_zqd.pwm[2]);
 					}
 					else if(uart_data[0] <= MID_VIEW+30 && uart_data[0] > MID_VIEW+10)
 					{
-						set_motor_vx_vy_w_R(1.5,0,0); //原来 15 0 0 
-						//set_motor_vx_vy_w_R(0,0,-100);
+						set_motor_vx_vy_w_R(3,0,0); //原来 1.5 0 0 
 						control1_W(robot_zqd.pwm[0]);
 						control2_W(robot_zqd.pwm[1]);
 						control3_W(robot_zqd.pwm[2]);
 					}
 					else if(uart_data[0] >= MID_VIEW-30 && uart_data[0] < MID_VIEW -10)
 					{
-						set_motor_vx_vy_w_R(-1.5,0,0);//原来-15 0 0
-						//set_motor_vx_vy_w_R(0,0,100);
+						set_motor_vx_vy_w_R(-3,0,0);//原来-1.5 0 0
 						control1_W(robot_zqd.pwm[0]);
 						control2_W(robot_zqd.pwm[1]);
 						control3_W(robot_zqd.pwm[2]);
@@ -2929,8 +2790,6 @@ void find_ball_sanfen(u8 ball)
 					while(receive3 != 1);
 					uart_getLaser();
 					uart_getData();
-					//if(uart_data[1]>800)
-					//	break;
 
 					if(!uart_getLaser())
 					{	
@@ -2943,35 +2802,35 @@ void find_ball_sanfen(u8 ball)
 					
 					else if((uart3_data[0]< MID_LASER-10) && uart3_data[1] >700)
 					{
-					set_motor_vx_vy_w_R(-10,0,0);//原来-100 0 0
+					set_motor_vx_vy_w_R(-10,0,0);//原来-10 0 0
 					control1_W(robot_zqd.pwm[0]);
 					control2_W(robot_zqd.pwm[1]);
 					control3_W(robot_zqd.pwm[2]);
 					}
 					else if((uart3_data[0] > MID_LASER+10) && uart3_data[1] >700)
 					{
-					set_motor_vx_vy_w_R(10,0,0); //原来100 0 0
+					set_motor_vx_vy_w_R(10,0,0); //原来10 0 0
 					control1_W(robot_zqd.pwm[0]);
 					control2_W(robot_zqd.pwm[1]);
 					control3_W(robot_zqd.pwm[2]);
 					}
 					else if(uart3_data[1]>700)
 					{
-					set_motor_vx_vy_w_R(0,14,0);
+					set_motor_vx_vy_w_R(0,20,0); //原来 0 14 0
 					control1_W(robot_zqd.pwm[0]);
 					control2_W(robot_zqd.pwm[1]);
 					control3_W(robot_zqd.pwm[2]);
 					}
 					else if(uart3_data[0]< MID_LASER-5)
 					{
-					set_motor_vx_vy_w_R(-10,0,0);//原来-100 0 0
+					set_motor_vx_vy_w_R(-10,0,0);//原来-10 0 0
 					control1_W(robot_zqd.pwm[0]);
 					control2_W(robot_zqd.pwm[1]);
 					control3_W(robot_zqd.pwm[2]);
 					}
 					else if(uart3_data[0] > MID_LASER+5)
 					{
-					set_motor_vx_vy_w_R(10,0,0);//原来100 0 0
+					set_motor_vx_vy_w_R(10,0,0);//原来10 0 0
 					control1_W(robot_zqd.pwm[0]);
 					control2_W(robot_zqd.pwm[1]);
 					control3_W(robot_zqd.pwm[2]);
@@ -2997,7 +2856,7 @@ void find_ball_sanfen(u8 ball)
 					control2_W(0);
 					control3_W(0);
 					jixiebi_down();
-					set_motor_vx_vy_w_R(0,7,0);
+					set_motor_vx_vy_w_R(0,7,0);//原来0 7 0 
 					control1_W(robot_zqd.pwm[0]);
 					control2_W(robot_zqd.pwm[1]);
 					control3_W(robot_zqd.pwm[2]);
@@ -3346,7 +3205,7 @@ void panduan_weizhi(void)
 		if(uart3_data[1] < 10)
 			continue;
 		
-		if(uart3_data[1] > 2000)
+		if(uart3_data[1] > 1500)
 		{			
 			zhongquan_case=0;
 			set_motor_vx_vy_w(0,400,0);
@@ -4213,6 +4072,11 @@ void find_lankuang(void)
 	robot_zqd.pwm[0] = 0;
 	robot_zqd.pwm[1] = 0;
 	robot_zqd.pwm[2] = 0;
+	if(lankuang_state==0)
+		lankuang_state=1;
+	else if(lankuang_state==1)
+		lankuang_state=2;
+	
 	LCD_Show_pwm();
 	LCD_ShowString(30+200,460,200,16,16,"       ");
 	
@@ -4422,17 +4286,17 @@ void sanfenpoint(u8 sanfen,u8 zhongquan)
 		if(zhongquan==0)
 			{
 				if(changdi==1)
-					robot_certain_point(4.5f,2.2f,315,0,4.2f,315);//right side
+					robot_certain_point(4.2f,2.2f,315,0,4.2f,315);//right side
 				else if(changdi==2)
-					robot_certain_point(-4.5f,2.2f,45,0,4.2f,45);//left side
+					robot_certain_point(-4.2f,2.2f,45,0,4.2f,45);//left side
 			}
 			
 		if(zhongquan==1)
 			{
 				if(changdi==1)
-					robot_certain_point(4.5f,2.2f,315,1.5f,4,225);//right side
+					robot_certain_point(4.2f,2.2f,315,1.5f,4,225);//right side
 				else if(changdi==2)
-					robot_certain_point(-4.5f,2.2f,45,-1.5f,4,135);//left side
+					robot_certain_point(-4.2f,2.2f,45,-1.5f,4,135);//left side
 			}
 		
 		if(zhongquan==2)
@@ -4440,7 +4304,7 @@ void sanfenpoint(u8 sanfen,u8 zhongquan)
 				if(changdi==1)
 				{
 					robot_straight_stage(2.5f,7,315);
-					robot_certain_point(4.5f,2,315,2.5f,3.5f,315);//right side
+					robot_certain_point(4.2f,2,315,2.5f,3.5f,315);//right side
 				}
 				if(changdi==2)
 				{
@@ -4448,10 +4312,7 @@ void sanfenpoint(u8 sanfen,u8 zhongquan)
 					robot_certain_point(-4.5f,2,45,-2.5f,7,45);//left side
 				}
 			}
-		
-		else
-			robot_straight_stage(4.5f,2.2f,315);//rihgt side 
-		  //robot_straight_stage(-4.5f,2.2f,45);//left side
+
 	}
 	
 	if(sanfen==2)
@@ -4473,9 +4334,5 @@ void sanfenpoint(u8 sanfen,u8 zhongquan)
 				robot_certain_point(7.25f,1.4f,0,2.5f,7,0);//right side 
 				//robot_certain_point(-7.25f,1.4f,0,-2.5f,7,0);//left side 
 			}
-		
-		else
-			robot_straight_stage(7.25f,1.4f,0);//right side 
-		  //robot_straight_stage(-7.25f,1.4f,0);//left side 
 	}
 }
