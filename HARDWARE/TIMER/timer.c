@@ -2,6 +2,7 @@
 #include "usart.h"
 #include "beep.h"
 #include "control.h"
+#include "stm32f4xx.h"
 u8 time_out_flag=0;
 u8 count = 0;
 u8 counter=0;
@@ -68,7 +69,7 @@ void TIM7_IRQHandler(void)
 	if(TIM_GetITStatus(TIM7,TIM_IT_Update)==SET)
 	{
 		
-		if(counter<24)
+		if(counter<23)
 		{
 			counter++;
 		}
@@ -78,12 +79,12 @@ void TIM7_IRQHandler(void)
 			
 			if(chengxu==4||chengxu==5||chengxu==6)
 			{
-				if(lankuang_state!=2)
+				if(lankuang_state==2)
 					{
 						control1_W(0);
 						control2_W(0);
 						control3_W(0);
-						down_shot_up();
+						down_shot();						
 					}
 			}
 			

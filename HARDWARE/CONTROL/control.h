@@ -21,7 +21,7 @@
 #define MOTOR_STATIC_1 4000		//TIM9 CH1 PE5
 #define MOTOR_STATIC_2 4000  	//TIM9 CH2 PE6
 
-#define MID_LASER 271		//激光定位中心
+#define MID_LASER 268	//激光定位中心
 #define MID_VIEW 320		//视觉定位中心
 #define DIS_LASER 2500			//篮筐雷达定位距离
 #define DIS_VIEW 280	//篮筐视觉定位距离
@@ -43,6 +43,7 @@ struct robot{
 extern struct robot robot_zqd;
 extern u32 uart_data[3];
 extern u8 zhongquan_case;
+extern u8 sanfen_case;
 extern u8 changdi;
 extern u8 lankuang_state;
 extern u8 chengxu;
@@ -64,6 +65,7 @@ void set_motor_vx_vy_w_R(float vx, float vy, float w);
 void jixiebi_down(void);
 void jixiebi_up(void);
 int down_shot_up(void);		//机械臂下降，投球，机械臂上升
+int down_shot(void);
 void get_hongwai(void);			//获取红外状态
 void get_hongwai_dixian(float dis);
 //直线行走
@@ -91,6 +93,7 @@ void find_ball_sanfen(u8 ball);
 u8 find_ball_dixian(void);
 int shot(void);
 void charge(u8 state);		//弹射充电开关
+void go_back(void);
 
 void remote_control(void);
 u8 xianwei_down(void);
@@ -105,4 +108,6 @@ void panduan_weizhi(void);
 void panduan_weizhifan(void);
 void panduan_weizhi2(void);
 void panduan_weizhifan2(void);
+void panduan_weizhisanfen(void);
+void panduan_weizhisanfenfan(void);
 #endif
